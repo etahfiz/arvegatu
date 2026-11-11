@@ -75,7 +75,7 @@ const INITIAL_TEACHERS_DATA = [
 // ==========================================
 const DEFAULT_CONFIG = {
   schoolName: "SMP Negeri 4 Malang",
-  schoolAddress: "Jl. Veteran No. 37, Kota Malang • Perekaman Setoran Juz 30 & Juz 29, Penilaian Guru & Pemantauan Orang Tua",
+  schoolAddress: "Jl. Veteran No. 37, Kota Malang • Perekaman Setoran Al-Qur'an 30 Juz, Penilaian Guru & Pemantauan Orang Tua",
   programTitle: "E-Tahfiz & Tilawah Mujawwad Al-Qur'an",
   logoBase64: "",
   adminPin: "999999",
