@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <!-- KODE SEO E-TAHFIZ & TILAWAH -->
+  <title>E-Tahfiz & Tilawah Mujawwad Al-Qur'an - Portal Resmi Sekolah</title>
+  <meta name="description" content="Sistem terintegrasi perekaman setoran Tahfiz & Tilawah Mujawwad Al-Qur'an Juz 30 & Juz 29, penilaian guru pembina, dan portal pemantauan orang tua." />
+  <meta name="keywords" content="E-Tahfiz Sekolah, Tilawah Mujawwad, Setoran Hafalan Online, Aplikasi Tahfiz Sekolah, SMP Negeri 4 Malang" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- KONFIGURASI PWA (AGAR BISA DI-INSTALL KE LAYAR UTAMA HP ANDROID & IOS) -->
+  <meta name="theme-color" content="#065f46" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="E-Tahfiz" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23065f46'/%3E%3Ccircle cx='50' cy='50' r='38' fill='%23f59e0b'/%3E%3Ctext x='50' y='66' font-size='46' text-anchor='middle'%3E🕌%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23065f46'/%3E%3Ccircle cx='50' cy='50' r='38' fill='%23f59e0b'/%3E%3Ctext x='50' y='66' font-size='46' text-anchor='middle'%3E🕌%3C/text%3E%3C/svg%3E" />
+  <link id="pwa-manifest" rel="manifest" href='data:application/manifest+json,{"name":"E-Tahfiz & Tilawah Al-Quran","short_name":"E-Tahfiz","start_url":"./","display":"standalone","background_color":"#065f46","theme_color":"#065f46","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2724%27 fill=%27%23065f46%27/%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2738%27 fill=%27%23f59e0b%27/%3E%3Ctext x=%2750%27 y=%2766%27 font-size=%2746%27 text-anchor=%27middle%27%3E%F0%9F%95%8C%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"}]}' />
+
+  <!-- Preconnect agar unduhan modul React & Font jauh lebih cepat -->
+  <link rel="preconnect" href="https://esm.sh" crossorigin>
+  <link rel="preconnect" href="https://script.google.com" crossorigin>
+  <link rel="preload" href="./e_tahfiz_tilawah_smpn_4_malang.tsx" as="fetch" crossorigin>
+
+  <!-- Tailwind CSS & Google Font Inter -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    body.hide-password-hints .demo-pwd-btn {
+      display: none !important;
+    }
+  </style>
+
+  <!-- Mesin React 18 & Lucide Icons -->
+  <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "lucide-react": "https://esm.sh/lucide-react@0.454.0?external=react"
+      }
+    }
+  </script>
+
+  <!-- Penerjemah Otomatis File .TSX (Babel) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-slate-50">
+  <div id="root">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:linear-gradient(135deg,#065f46,#115e59);color:#ffffff;font-family:'Inter',sans-serif;text-align:center;padding:20px;">
+      <div style="width:56px;height:56px;border-radius:16px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:16px;box-shadow:0 10px 25px rgba(0,0,0,0.2);">🕌</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:6px;">Membuka Portal E-Tahfiz...</div>
+      <div style="font-size:13px;color:#d1fae5;max-width:360px;">Menyiapkan halaman instan untuk Anda...</div>
+    </div>
+  </div>
+
+  <script type="module">
+    // =========================================================================
+    // URL GOOGLE APPS SCRIPT (/exec) SEKOLAH:
+    // =========================================================================
+    const MASTER_CLOUD_URL = "https://script.google.com/macros/s/AKfycbyfr3PuxU9uYMLJpk1wA8vX00BFJ6wcjso-HlTjwzly7juJ7V-j-sIYSdmYg-55p9lj/exec";
+
+    // =========================================================================
+    // SISTEM URL HASH ROUTING (#murid-tahfiz, #guru-tahfiz, #ortu-tahfiz, dll)
+    // =========================================================================
+    const PAGE_TO_SLUG = {
+      1: "murid-tahfiz",
+      2: "guru-tahfiz",
+      3: "ortu-tahfiz",
+      4: "murid-tilawah",
+      5: "guru-tilawah",
+      6: "ortu-tilawah",
+      7: "database"
+    };
+
+    const SLUG_TO_PAGE = {
+      "murid-tahfiz": 1, "tahfizmurid": 1, "hal1": 1, "1": 1,
+      "guru-tahfiz": 2, "tahfizguru": 2, "hal2": 2, "2": 2,
+      "ortu-tahfiz": 3, "tahfizortu": 3, "tahfizorangtua": 3, "hal3": 3, "3": 3,
+      "murid-tilawah": 4, "tilawahmurid": 4, "hal4": 4, "4": 4,
+      "guru-tilawah": 5, "tilawahguru": 5, "hal5": 5, "5": 5,
+      "ortu-tilawah": 6, "tilawahortu": 6, "tilawahorangtua": 6, "hal6": 6, "6": 6,
+      "database": 7, "rekap": 7, "spreadsheet": 7, "hal7": 7, "7": 7
+    };
+
+    window.__getPageFromHash = function() {
+      const rawHash = (window.location.hash || "").replace(/^#\/?/, "").toLowerCase().trim();
+      return SLUG_TO_PAGE[rawHash] || 1;
+    };
+
+    window.__getSlugFromPage = function(pageId) {
+      return PAGE_TO_SLUG[pageId] || "murid-tahfiz";
+    };
+
+    function cleanDriveLink(rawUrl, driveUrl, driveFileId) {
+      let s = String(rawUrl || "").trim();
+      s = s.replace(/\[https?:\/\/[^\]]+\]\((https?:\/\/[^\)]+)\)/g, "$1").replace(/^\[|\]$/g, "");
+      if (s.startsWith("data:")) return s;
+
+      const combined = s + " " + String(driveUrl || "") + " " + String(driveFileId || "");
+      const m = combined.match(/(?:id=|\/d\/|^|\s)([a-zA-Z0-9_-]{25,})/);
+      if (m && m[1]) {
+        return "https://drive.google.com/uc?export=download&id=" + m[1];
+      }
+      return s;
+    }
+
+    // Cache audio di memori browser + Antrean Prioritas (Maks 2 download bersamaan)
+    const driveAudioCache = new Map();
+
+    function setupDriveAudioAutoLoader(gasWebhookUrl) {
+      if (!gasWebhookUrl || !gasWebhookUrl.startsWith("http")) return;
+
+      let activeDownloads = 0;
+      const queue = [];
+
+      function processQueue() {
+        while (activeDownloads < 2 && queue.length > 0) {
+          const nextAudioEl = queue.shift();
+          runResolve(nextAudioEl);
+        }
+      }
+
+      async function runResolve(audioEl) {
+        if (!audioEl || audioEl.dataset.driveResolved === "true" || audioEl.dataset.driveLoading === "true") return;
+        const src = audioEl.getAttribute("src") || audioEl.src || "";
+        const match = src.match(/(?:id=|\/d\/)([a-zA-Z0-9_-]{25,})/);
+        if (!match || !match[1]) return;
+
+        const fileId = match[1];
+        if (driveAudioCache.has(fileId)) {
+          audioEl.dataset.driveResolved = "true";
+          audioEl.src = driveAudioCache.get(fileId);
+          return;
+        }
+
+        audioEl.dataset.driveLoading = "true";
+        activeDownloads++;
+        try {
+          const res = await fetch(gasWebhookUrl + "?action=getAudio&id=" + encodeURIComponent(fileId));
+          const data = await res.json();
+          if (data && data.status === "ok" && data.dataUrl) {
+            driveAudioCache.set(fileId, data.dataUrl);
+            audioEl.dataset.driveResolved = "true";
+            const wasPlaying = !audioEl.paused;
+            audioEl.src = data.dataUrl;
+            audioEl.load();
+            if (wasPlaying) audioEl.play().catch(() => {});
+          }
+        } catch (err) {
+          console.warn("Gagal memuat audio dari Drive:", err);
+        } finally {
+          audioEl.dataset.driveLoading = "false";
+          activeDownloads--;
+          processQueue();
+        }
+      }
+
+      function enqueueAudio(el, priority = false) {
+        if (!el || el.dataset.driveResolved === "true" || el.dataset.driveLoading === "true") return;
+        if (!queue.includes(el)) {
+          if (priority) queue.unshift(el);
+          else queue.push(el);
+        }
+        processQueue();
+      }
+
+      const scanAllAudios = () => {
+        document.querySelectorAll("audio").forEach(el => {
+          const src = el.getAttribute("src") || el.src || "";
+          if (src.includes("drive.google.com") || src.includes("docs.google.com")) {
+            if (!el.dataset.listenerAttached) {
+              el.dataset.listenerAttached = "true";
+              const parentBox = el.parentElement || el;
+              parentBox.addEventListener("mouseenter", () => enqueueAudio(el, true), { once: true });
+              parentBox.addEventListener("touchstart", () => enqueueAudio(el, true), { once: true, passive: true });
+              el.addEventListener("play", () => enqueueAudio(el, true));
+            }
+            enqueueAudio(el, false);
+          }
+        });
+      };
+
+      const observer = new MutationObserver(() => scanAllAudios());
+      observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ["src"] });
+      setInterval(scanAllAudios, 1500);
+    }
+
+    // Sinkronisasi Cloud di Latar Belakang (TANPA Menahan Loading Halaman!)
+    async function syncCloudInBackground(activeWebhook) {
+      if (!activeWebhook || !activeWebhook.startsWith("http") || activeWebhook.includes("SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK")) return;
+      try {
+        const cloudRes = await fetch(activeWebhook + "?t=" + Date.now());
+        if (!cloudRes.ok) return;
+        const cloudData = await cloudRes.json();
+
+        let hasUpdates = false;
+        if (cloudData.config && cloudData.config.schoolName) {
+          if (!cloudData.config.gasWebhookUrl || cloudData.config.gasWebhookUrl.includes("SMPN4MALANG")) {
+            cloudData.config.gasWebhookUrl = activeWebhook;
+          }
+          localStorage.setItem("ETAHFIZ_WHITELABEL_CONFIG_V1", JSON.stringify(cloudData.config));
+          if (typeof document !== 'undefined') {
+            document.body.classList.toggle('hide-password-hints', Boolean(cloudData.config.hidePasswordHints));
+            document.title = `${cloudData.config.programTitle || 'E-Tahfiz'} - ${cloudData.config.schoolName}`;
+          }
+          hasUpdates = true;
+        }
+        if (Array.isArray(cloudData.records)) {
+          const sanitizedRecords = cloudData.records.map(r => ({
+            ...r,
+            audioUrl: cleanDriveLink(r.audioUrl, r.driveUrl, r.driveFileId)
+          }));
+          localStorage.setItem("ETAHFIZ_COMMERCIAL_RECORDS_V1", JSON.stringify(sanitizedRecords));
+          hasUpdates = true;
+        }
+
+        if (hasUpdates) {
+          window.dispatchEvent(new CustomEvent("etahfiz-cloud-synced", { detail: cloudData }));
+        }
+      } catch (cloudErr) {
+        console.warn("Sinkronisasi latar belakang ditunda (Offline/Lokal):", cloudErr);
+      }
+    }
+
+    async function bootRealtimeApp() {
+      try {
+        let activeWebhook = MASTER_CLOUD_URL;
+        try {
+          const localCfg = JSON.parse(localStorage.getItem("ETAHFIZ_WHITELABEL_CONFIG_V1") || "{}");
+          if ((!activeWebhook || activeWebhook === MASTER_CLOUD_URL) && localCfg.gasWebhookUrl && localCfg.gasWebhookUrl.startsWith("http") && !localCfg.gasWebhookUrl.includes("SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK")) {
+            activeWebhook = localCfg.gasWebhookUrl;
+          }
+          if (localCfg.hidePasswordHints) {
+            document.body.classList.add('hide-password-hints');
+          }
+          if (localCfg.schoolName) {
+            document.title = `${localCfg.programTitle || 'E-Tahfiz'} - ${localCfg.schoolName}`;
+          }
+        } catch (e) {}
+
+        // 1. Jalankan pemutar audio Drive & ambil data Cloud di latar belakang
+        setupDriveAudioAutoLoader(activeWebhook);
+        syncCloudInBackground(activeWebhook);
+
+        // 2. Cek cache kompilasi Babel di sessionStorage (Gunakan versi V4 untuk memuat fitur URL Hash Routing)
+        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V4";
+        let compiledCode = sessionStorage.getItem(CACHE_KEY);
+
+        if (!compiledCode) {
+          const res = await fetch('./e_tahfiz_tilawah_smpn_4_malang.tsx');
+          if (!res.ok) throw new Error('File .tsx tidak ditemukan (Status: ' + res.status + ')');
+          let tsxCode = await res.text();
+
+          if (activeWebhook && activeWebhook.startsWith("http") && activeWebhook !== "TEMPEL_URL_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI") {
+            tsxCode = tsxCode.replace(
+              "https://script.google.com/macros/s/AKfycbz_SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK/exec",
+              activeWebhook
+            );
+          }
+
+          // PATCH 0: AKTIFKAN URL HASH ROUTING (#murid-tahfiz, #guru-tahfiz, dll) & TOMBOL SALIN LINK HALAMAN
+          const oldNavState = `  // Navigasi 6 Halaman Utama + 1 Halaman Database/Spreadsheet
+  const [activePage, setActivePage] = useState(1);`;
+
+          const newNavState = `  // Navigasi 6 Halaman Utama + 1 Halaman Database/Spreadsheet (Mendukung URL Hash Routing)
+  const [activePage, setActivePage] = useState(() => {
+    return typeof window !== 'undefined' && window.__getPageFromHash ? window.__getPageFromHash() : 1;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const slug = window.__getSlugFromPage ? window.__getSlugFromPage(activePage) : ('hal' + activePage);
+    if (window.location.hash !== '#' + slug) {
+      window.history.replaceState(null, '', '#' + slug);
+    }
+  }, [activePage]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const onHashChange = () => {
+      const targetPage = window.__getPageFromHash ? window.__getPageFromHash() : 1;
+      setActivePage(targetPage);
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);`;
+
+          tsxCode = tsxCode.replace(oldNavState, newNavState);
+
+          // Tambahkan tombol "Salin Link Halaman" di sebelah indikator Menu Aktif
+          const oldActiveBannerInfo = `          <div className="flex items-center gap-3 text-xs text-slate-500">`;
+          const newActiveBannerInfo = `          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+            <button
+              type="button"
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                showToast("Link langsung halaman ini (" + window.location.hash + ") berhasil disalin! Siap dibagikan ke WhatsApp.");
+              }}
+              className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold border border-slate-300 flex items-center gap-1 cursor-pointer transition"
+              title="Salin alamat link khusus halaman ini untuk dibagikan ke grup WhatsApp"
+            >
+              <span>🔗 Salin Link Halaman Ini</span>
+            </button>
+            <span>•</span>`;
+
+          tsxCode = tsxCode.replace(oldActiveBannerInfo, newActiveBannerInfo);
+
+          // PATCH 1: SIMPAN ADMIN KE CLOUD
+          const oldSaveAdmin = `  // Simpan semua perubahan ke state utama & localStorage
+  const handleSaveAllChanges = () => {
+    const activeCount = Object.values(draftConfig.enabledPages).filter(Boolean).length;
+    if (activeCount === 0) {
+      showToast("Aktifkan minimal 1 halaman menu agar aplikasi dapat digunakan!", "error");
+      return;
+    }
+    setConfig(draftConfig);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(draftConfig));
+    showToast("Seluruh pengaturan White-Label berhasil diterapkan & disimpan ke localStorage!");
+  };`;
+
+          const newSaveAdmin = `  // Simpan semua perubahan ke state utama, localStorage & Cloud Spreadsheet
+  const handleSaveAllChanges = () => {
+    const activeCount = Object.values(draftConfig.enabledPages).filter(Boolean).length;
+    if (activeCount === 0) {
+      showToast("Aktifkan minimal 1 halaman menu agar aplikasi dapat digunakan!", "error");
+      return;
+    }
+    setConfig(draftConfig);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(draftConfig));
+    if (typeof document !== 'undefined') {
+      document.body.classList.toggle('hide-password-hints', Boolean(draftConfig.hidePasswordHints));
+      document.title = \`\${draftConfig.programTitle || 'E-Tahfiz'} - \${draftConfig.schoolName}\`;
+    }
+    onSyncSpreadsheet(draftConfig);
+  };`;
+
+          tsxCode = tsxCode.replace(oldSaveAdmin, newSaveAdmin);
+
+          // PATCH 2: CORS PENGIRIMAN CONFIG
+          const oldSyncFunc = `      if (customConfig.gasWebhookUrl && customConfig.gasWebhookUrl.startsWith("http")) {
+        fetch(customConfig.gasWebhookUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "SAVE_WHITELABEL_CONFIG",
+            timestamp: new Date().toISOString(),
+            config: customConfig
+          })
+        }).catch(() => {});
+      }`;
+
+          const newSyncFunc = `      if (customConfig.gasWebhookUrl && customConfig.gasWebhookUrl.startsWith("http") && !customConfig.gasWebhookUrl.includes("SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK")) {
+        fetch(customConfig.gasWebhookUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            action: "SAVE_WHITELABEL_CONFIG",
+            timestamp: new Date().toISOString(),
+            config: customConfig
+          })
+        }).catch(() => {});
+      }`;
+
+          tsxCode = tsxCode.replace(oldSyncFunc, newSyncFunc);
+
+          // PATCH 3: STATE DATA REKAMAN + AUTO-UPDATE SAAT BACKGROUND SYNC SELESAI
+          const oldRecordsBlock = `  // State Data Rekaman
+  const [records, setRecords] = useState(() => {
+    const tahfizSampleAudio = generateSimulatedMurottalWav(5, 'tahfiz');
+    const tilawahSampleAudio = generateSimulatedMurottalWav(6, 'tilawah');
+    return INITIAL_RECORDS.map(rec => ({
+      ...rec,
+      audioUrl: rec.category === 'tilawah' ? tilawahSampleAudio : tahfizSampleAudio
+    }));
+  });`;
+
+          const newRecordsBlock = `  // State Data Rekaman (Instant Load + Background Cloud Listener)
+  const formatRecordList = (rawList) => {
+    const tahfizSampleAudio = generateSimulatedMurottalWav(5, 'tahfiz');
+    const tilawahSampleAudio = generateSimulatedMurottalWav(6, 'tilawah');
+    return rawList.map(rec => {
+      let cleanUrl = String(rec.audioUrl || "").replace(/\\[https?:\\/\\/[^\\]]+\\]\\((https?:\\/\\/[^\\)]+)\\)/g, "$1").replace(/^\\[|\\]$/g, "");
+      const idMatch = (cleanUrl + " " + String(rec.driveUrl || "") + " " + String(rec.driveFileId || "")).match(/(?:id=|\\/d\\/|\\b)([a-zA-Z0-9_-]{25,})/);
+      if (!cleanUrl.startsWith("data:") && idMatch && idMatch[1]) {
+        cleanUrl = "https://drive.google.com/uc?export=download&id=" + idMatch[1];
+      }
+      return {
+        ...rec,
+        audioUrl: (cleanUrl && (cleanUrl.startsWith('data:') || cleanUrl.startsWith('http'))) ? cleanUrl : (rec.category === 'tilawah' ? tilawahSampleAudio : tahfizSampleAudio)
+      };
+    });
+  };
+
+  const [records, setRecords] = useState(() => {
+    try {
+      const savedRecs = localStorage.getItem("ETAHFIZ_COMMERCIAL_RECORDS_V1");
+      if (savedRecs) {
+        const parsed = JSON.parse(savedRecs);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return formatRecordList(parsed);
+        }
+      }
+    } catch (e) {}
+    return formatRecordList(INITIAL_RECORDS);
+  });
+
+  useEffect(() => {
+    const handleCloudUpdate = (e) => {
+      const cloudData = e.detail || {};
+      if (cloudData.config && cloudData.config.schoolName) {
+        setConfig(cloudData.config);
+      }
+      if (Array.isArray(cloudData.records) && cloudData.records.length > 0) {
+        setRecords(formatRecordList(cloudData.records));
+      }
+    };
+    window.addEventListener("etahfiz-cloud-synced", handleCloudUpdate);
+    return () => window.removeEventListener("etahfiz-cloud-synced", handleCloudUpdate);
+  }, []);
+
+  const postToCloudFast = (payload, updatedList) => {
+    try {
+      const lightList = updatedList.slice(0, 150).map(r => ({
+        ...r,
+        audioUrl: (r.audioUrl && r.audioUrl.startsWith('http')) ? r.audioUrl : null
+      }));
+      localStorage.setItem("ETAHFIZ_COMMERCIAL_RECORDS_V1", JSON.stringify(lightList));
+    } catch (e) {}
+    if (config.gasWebhookUrl && config.gasWebhookUrl.startsWith("http") && !config.gasWebhookUrl.includes("SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK")) {
+      fetch(config.gasWebhookUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    }
+  };`;
+
+          tsxCode = tsxCode.replace(oldRecordsBlock, newRecordsBlock);
+
+          tsxCode = tsxCode.replace(
+            "setRecords(prev => [newRecord, ...prev]);",
+            "setRecords(prev => { const next = [newRecord, ...prev]; postToCloudFast({ action: 'ADD_SINGLE_RECORD', record: newRecord }, next); return next; });"
+          );
+          tsxCode = tsxCode.replace(
+            `  const handleTeacherSave = (recordId, grade, teacherComment, teacherName) => {
+    setRecords(prev => prev.map(rec => {
+      if (rec.id === recordId) {
+        return { ...rec, grade, teacherComment, teacherName };
+      }
+      return rec;
+    }));`,
+            `  const handleTeacherSave = (recordId, grade, teacherComment, teacherName) => {
+    setRecords(prev => {
+      let targetRec = null;
+      const next = prev.map(rec => {
+        if (rec.id === recordId) {
+          targetRec = { ...rec, grade, teacherComment, teacherName };
+          return targetRec;
+        }
+        return rec;
+      });
+      if (targetRec) postToCloudFast({ action: 'UPDATE_SINGLE_RECORD', record: targetRec }, next);
+      return next;
+    });`
+          );
+          tsxCode = tsxCode.replace(
+            `  const handleParentSave = (recordId, parentComment) => {
+    setRecords(prev => prev.map(rec => {
+      if (rec.id === recordId) {
+        return { ...rec, parentComment };
+      }
+      return rec;
+    }));`,
+            `  const handleParentSave = (recordId, parentComment) => {
+    setRecords(prev => {
+      let targetRec = null;
+      const next = prev.map(rec => {
+        if (rec.id === recordId) {
+          targetRec = { ...rec, parentComment };
+          return targetRec;
+        }
+        return rec;
+      });
+      if (targetRec) postToCloudFast({ action: 'UPDATE_SINGLE_RECORD', record: targetRec }, next);
+      return next;
+    });`
+          );
+          tsxCode = tsxCode.replace(
+            "setRecords(prev => prev.filter(rec => rec.id !== recordId));",
+            "setRecords(prev => { const next = prev.filter(rec => rec.id !== recordId); postToCloudFast({ action: 'DELETE_SINGLE_RECORD', recordId }, next); return next; });"
+          );
+
+          // PATCH 4: KOMPRESI AUDIO REKAMAN (32 KBPS)
+          tsxCode = tsxCode.replace(
+            "const mediaRecorder = new MediaRecorder(stream);",
+            "const mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : ''); const mediaRecorder = mime ? new MediaRecorder(stream, { mimeType: mime, audioBitsPerSecond: 32000 }) : new MediaRecorder(stream);"
+          );
+
+          const oldBlobStop = `          if (audioChunksRef.current.length > 0) {
+            const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+            const url = URL.createObjectURL(audioBlob);
+            setRecordedAudioUrl(url);
+          }`;
+          const newBlobStop = `          if (audioChunksRef.current.length > 0) {
+            const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
+            const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              if (typeof reader.result === 'string') setRecordedAudioUrl(reader.result);
+            };
+            reader.readAsDataURL(audioBlob);
+          }`;
+          tsxCode = tsxCode.replace(oldBlobStop, newBlobStop);
+
+          // PATCH 5: FITUR IMPORT MASSAL 1.000 MURID DARI EXCEL
+          const oldStudentState = `  // State tambah murid baru
+  const [newStudentName, setNewStudentName] = useState("");`;
+          const newStudentState = `  // State tambah murid baru & Bulk Import Excel 1.000 Murid
+  const [newStudentName, setNewStudentName] = useState("");
+  const [bulkExcelText, setBulkExcelText] = useState("");
+  const [showBulkModal, setShowBulkModal] = useState(false);
+
+  const handleBulkImportStudents = (replaceExisting = false) => {
+    const lines = bulkExcelText.split(/\\r?\\n/).map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) {
+      showToast("Tempelkan data dari Excel terlebih dahulu!", "error");
+      return;
+    }
+    const startPwd = Number(draftConfig.studentPasswordStart) || 123456;
+    const baseIdx = replaceExisting ? 0 : draftConfig.students.length;
+    const parsedStudents = lines.map((line, idx) => {
+      const parts = line.includes("\\t") ? line.split("\\t") : (line.includes(";") ? line.split(";") : line.split(","));
+      const name = (parts[0] || "").trim().replace(/^["']|["']$/g, "");
+      const kelas = (parts[1] || "VII-A").trim().replace(/^["']|["']$/g, "");
+      const customPwd = (parts[2] || "").trim().replace(/^["']|["']$/g, "");
+      const num = baseIdx + idx + 1;
+      return {
+        id: \`STD-\${String(num).padStart(3, '0')}-\${Math.random().toString(36).slice(2, 5)}\`,
+        name: name || \`Murid \${num}\`,
+        kelas: kelas || "VII-A",
+        password: customPwd || String(startPwd + num - 1)
+      };
+    });
+    setDraftConfig(prev => ({
+      ...prev,
+      students: replaceExisting ? parsedStudents : [...prev.students, ...parsedStudents]
+    }));
+    setBulkExcelText("");
+    setShowBulkModal(false);
+    showToast(\`Berhasil mengimpor \${parsedStudents.length} murid sekaligus! Jangan lupa klik Simpan Pengaturan Admin.\`);
+  };`;
+          tsxCode = tsxCode.replace(oldStudentState, newStudentState);
+
+          const targetRangeBox = `                  {/* Form Tambah Murid Baru */}`;
+          const injectedBulkImporter = `                  {/* FITUR IMPORT MASSAL 1.000 MURID DARI EXCEL / DAPODIK */}
+                  <div className="bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <div className="text-xs font-extrabold text-amber-950">⚡ Import Massal Ratusan / 1.000 Murid dari Microsoft Excel (Selesai 10 Detik)</div>
+                        <div className="text-[11px] text-amber-800">
+                          Salin (Copy) kolom <strong>Nama Murid</strong>, <strong>Kelas</strong>, dan <strong>Password/NISN (Opsional)</strong> langsung dari Excel, lalu tempelkan di sini.
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowBulkModal(!showBulkModal)}
+                        className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold cursor-pointer shadow-xs"
+                      >
+                        {showBulkModal ? "Tutup Kotak Import Excel" : "📋 Buka Import Excel Massal"}
+                      </button>
+                    </div>
+
+                    {showBulkModal && (
+                      <div className="space-y-2.5 pt-2 border-t border-amber-200">
+                        <textarea
+                          rows={6}
+                          value={bulkExcelText}
+                          onChange={(e) => setBulkExcelText(e.target.value)}
+                          placeholder={"Contoh hasil Copy-Paste dari Excel (atau pisahkan dengan koma):\\nAhmad Fauzan\\tVII-A\\t123456\\nAisyah Putri\\tVII-A\\t123457\\nBima Arya\\tVIII-B\\t123458"}
+                          className="w-full rounded-xl border border-amber-300 p-3 text-xs font-mono bg-white text-slate-800"
+                        />
+                        <div className="flex flex-wrap gap-2 justify-end">
+                          <button
+                            type="button"
+                            onClick={() => handleBulkImportStudents(false)}
+                            className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold cursor-pointer"
+                          >
+                            + Tambahkan ke Daftar Saat Ini
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleBulkImportStudents(true)}
+                            className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold cursor-pointer"
+                          >
+                            🔄 Ganti Seluruh Daftar Murid Lama dengan Ini
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Form Tambah Murid Baru */}`;
+
+          tsxCode = tsxCode.replace(targetRangeBox, injectedBulkImporter);
+
+          // PATCH 6: SAKLAR SEMBUNYIKAN BANTUAN PASSWORD DI TAB 1 ADMIN
+          const targetAdminPinInput = `                      <div>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">PIN Halaman Database:</label>
+                        <input
+                          type="text"
+                          value={draftConfig.databasePin}
+                          onChange={(e) => setDraftConfig(prev => ({ ...prev, databasePin: e.target.value }))}
+                          className="w-full rounded-xl border border-slate-300 px-3 py-2 text-xs font-mono font-bold bg-slate-50"
+                        />
+                      </div>
+                    </div>`;
+
+          const injectedToggleSwitch = targetAdminPinInput + `
+                    <div className="mt-4 p-4 rounded-2xl border-2 border-amber-300 bg-amber-50/80 flex items-center justify-between gap-4">
+                      <div>
+                        <div className="text-xs font-extrabold text-amber-950">🔒 Sembunyikan Bantuan & Tombol "Isi Password Otomatis" (Mode Sekolah Resmi)</div>
+                        <div className="text-[11px] text-amber-800 mt-0.5">
+                          Aktifkan saklar ini saat aplikasi sudah dipakai murid agar tombol "Password (123456-123490)" dan "Isi Otomatis" disembunyikan.
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setDraftConfig(prev => ({ ...prev, hidePasswordHints: !prev.hidePasswordHints }))}
+                        className={\`px-3.5 py-2 rounded-xl text-xs font-extrabold shrink-0 cursor-pointer transition \${
+                          draftConfig.hidePasswordHints ? 'bg-slate-900 text-amber-400' : 'bg-amber-500 text-slate-950'
+                        }\`}
+                      >
+                        {draftConfig.hidePasswordHints ? '🔒 TERSEMBUNYI (MODE RESMI)' : '🔓 TAMPIL (MODE DEMO)'}
+                      </button>
+                    </div>`;
+
+          tsxCode = tsxCode.replace(targetAdminPinInput, injectedToggleSwitch);
+
+          tsxCode = tsxCode.replaceAll(
+            'className="text-[11px] font-bold hover:underline cursor-pointer"',
+            'className="text-[11px] font-bold hover:underline cursor-pointer demo-pwd-btn"'
+          );
+          tsxCode = tsxCode.replace(
+            'onClick={() => setShowPasswordModal(true)}\n                className="flex items-center gap-1.5 px-3 py-2',
+            'onClick={() => setShowPasswordModal(true)}\n                className="demo-pwd-btn flex items-center gap-1.5 px-3 py-2'
+          );
+          tsxCode = tsxCode.replace(
+            'onClick={onOpenPasswordList}\n            style={{ color: \'var(--primary-color)\' }}\n            className="text-xs font-bold hover:underline cursor-pointer"',
+            'onClick={onOpenPasswordList}\n            style={{ color: \'var(--primary-color)\' }}\n            className="demo-pwd-btn text-xs font-bold hover:underline cursor-pointer"'
+          );
+
+          const modifiedCode = tsxCode.replace('export default function App()', 'function App()') +
+            '\nimport { createRoot } from "react-dom/client";\ncreateRoot(document.getElementById("root")).render(<App />);';
+
+          compiledCode = Babel.transform(modifiedCode, {
+            presets: [
+              ['react', { runtime: 'classic' }],
+              'typescript'
+            ],
+            sourceType: 'module',
+            filename: 'app.tsx'
+          }).code;
+
+          try {
+            sessionStorage.setItem(CACHE_KEY, compiledCode);
+          } catch (e) {}
+        }
+
+        const blob = new Blob([compiledCode], { type: 'text/javascript' });
+        const moduleUrl = URL.createObjectURL(blob);
+        await import(moduleUrl);
+
+      } catch (err) {
+        document.getElementById('root').innerHTML = 
+          '<div style="padding:24px;color:#be123c;font-family:monospace;background:#ffe4e6;margin:20px;border-radius:12px;">' +
+          '<strong>Detail Kendala Teknis:</strong><br/>' + err.message + '</div>';
+        console.error(err);
+      }
+    }
+
+    bootRealtimeApp();
+  </script>
+</body>
+</html>
