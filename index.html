@@ -6,11 +6,11 @@
   
   <!-- KODE SEO E-TAHFIZ & TILAWAH -->
   <title>E-Tahfiz & Tilawah Mujawwad Al-Qur'an - Portal Resmi Sekolah</title>
-  <meta name="description" content="Sistem terintegrasi perekaman setoran Tahfiz & Tilawah Mujawwad Al-Qur'an Juz 30 & Juz 29, penilaian guru pembina, dan portal pemantauan orang tua." />
+  <meta name="description" content="Sistem terintegrasi perekaman setoran Tahfiz & Tilawah Mujawwad Al-Qur'an Juz 1 s/d Juz 30, penilaian guru pembina, tutorial nagham, dan portal pemantauan orang tua." />
   <meta name="keywords" content="E-Tahfiz Sekolah, Tilawah Mujawwad, Setoran Hafalan Online, Aplikasi Tahfiz Sekolah, SMP Negeri 4 Malang" />
   <meta name="robots" content="index, follow" />
 
-  <!-- KONFIGURASI PWA (AGAR BISA DI-INSTALL KE LAYAR UTAMA HP ANDROID & IOS) -->
+  <!-- KONFIGURASI PWA -->
   <meta name="theme-color" content="#065f46" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -18,12 +18,10 @@
   <meta name="apple-mobile-web-app-title" content="E-Tahfiz" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23065f46'/%3E%3Ccircle cx='50' cy='50' r='38' fill='%23f59e0b'/%3E%3Ctext x='50' y='66' font-size='46' text-anchor='middle'%3E🕌%3C/text%3E%3C/svg%3E" />
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23065f46'/%3E%3Ccircle cx='50' cy='50' r='38' fill='%23f59e0b'/%3E%3Ctext x='50' y='66' font-size='46' text-anchor='middle'%3E🕌%3C/text%3E%3C/svg%3E" />
-  <link id="pwa-manifest" rel="manifest" href='data:application/manifest+json,{"name":"E-Tahfiz & Tilawah Al-Quran","short_name":"E-Tahfiz","start_url":"./","display":"standalone","background_color":"#065f46","theme_color":"#065f46","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2724%27 fill=%27%23065f46%27/%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2738%27 fill=%27%23f59e0b%27/%3E%3Ctext x=%2750%27 y=%2766%27 font-size=%2746%27 text-anchor=%27middle%27%3E%F0%9F%95%8C%3C/text%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml","purpose":"any maskable"}]}' />
 
-  <!-- Preconnect agar unduhan modul React & Font jauh lebih cepat -->
+  <!-- Preconnect -->
   <link rel="preconnect" href="https://esm.sh" crossorigin>
   <link rel="preconnect" href="https://script.google.com" crossorigin>
-  <link rel="preload" href="./e_tahfiz_tilawah_smpn_4_malang.tsx" as="fetch" crossorigin>
 
   <!-- Tailwind CSS & Google Font Inter -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -55,7 +53,7 @@
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:linear-gradient(135deg,#065f46,#115e59);color:#ffffff;font-family:'Inter',sans-serif;text-align:center;padding:20px;">
       <div style="width:56px;height:56px;border-radius:16px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:16px;box-shadow:0 10px 25px rgba(0,0,0,0.2);">🕌</div>
       <div style="font-size:20px;font-weight:800;margin-bottom:6px;">Membuka Portal E-Tahfiz...</div>
-      <div style="font-size:13px;color:#d1fae5;max-width:360px;">Menyiapkan halaman instan untuk Anda...</div>
+      <div style="font-size:13px;color:#d1fae5;max-width:360px;">Menyiapkan Mushaf Juz 1-30, Maqam Nagham & Halaman Tutorial...</div>
     </div>
   </div>
 
@@ -66,7 +64,7 @@
     const MASTER_CLOUD_URL = "https://script.google.com/macros/s/AKfycbyfr3PuxU9uYMLJpk1wA8vX00BFJ6wcjso-HlTjwzly7juJ7V-j-sIYSdmYg-55p9lj/exec";
 
     // =========================================================================
-    // SISTEM URL HASH ROUTING (#murid-tahfiz, #guru-tahfiz, #ortu-tahfiz, dll)
+    // SISTEM URL HASH ROUTING (#murid-tahfiz, #guru-tahfiz, #tutorial, dll)
     // =========================================================================
     const PAGE_TO_SLUG = {
       1: "murid-tahfiz",
@@ -75,6 +73,7 @@
       4: "murid-tilawah",
       5: "guru-tilawah",
       6: "ortu-tilawah",
+      8: "tutorial",
       7: "database"
     };
 
@@ -85,6 +84,7 @@
       "murid-tilawah": 4, "tilawahmurid": 4, "hal4": 4, "4": 4,
       "guru-tilawah": 5, "tilawahguru": 5, "hal5": 5, "5": 5,
       "ortu-tilawah": 6, "tilawahortu": 6, "tilawahorangtua": 6, "hal6": 6, "6": 6,
+      "tutorial": 8, "latihan": 8, "irama": 8, "nagham": 8, "hal8": 8, "8": 8,
       "database": 7, "rekap": 7, "spreadsheet": 7, "hal7": 7, "7": 7
     };
 
@@ -110,7 +110,6 @@
       return s;
     }
 
-    // Cache audio di memori browser + Antrean Prioritas (Maks 2 download bersamaan)
     const driveAudioCache = new Map();
 
     function setupDriveAudioAutoLoader(gasWebhookUrl) {
@@ -191,7 +190,6 @@
       setInterval(scanAllAudios, 1500);
     }
 
-    // Sinkronisasi Cloud di Latar Belakang (TANPA Menahan Loading Halaman!)
     async function syncCloudInBackground(activeWebhook) {
       if (!activeWebhook || !activeWebhook.startsWith("http") || activeWebhook.includes("SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK")) return;
       try {
@@ -204,10 +202,13 @@
           if (!cloudData.config.gasWebhookUrl || cloudData.config.gasWebhookUrl.includes("SMPN4MALANG")) {
             cloudData.config.gasWebhookUrl = activeWebhook;
           }
+          if (cloudData.config.enabledPages && cloudData.config.enabledPages[8] === undefined) {
+            cloudData.config.enabledPages[8] = true;
+          }
           localStorage.setItem("ETAHFIZ_WHITELABEL_CONFIG_V1", JSON.stringify(cloudData.config));
           if (typeof document !== 'undefined') {
             document.body.classList.toggle('hide-password-hints', Boolean(cloudData.config.hidePasswordHints));
-            document.title = `${cloudData.config.programTitle || 'E-Tahfiz'} - ${cloudData.config.schoolName}`;
+            document.title = (cloudData.config.programTitle || 'E-Tahfiz') + ' - ' + cloudData.config.schoolName;
           }
           hasUpdates = true;
         }
@@ -240,35 +241,1552 @@
             document.body.classList.add('hide-password-hints');
           }
           if (localCfg.schoolName) {
-            document.title = `${localCfg.programTitle || 'E-Tahfiz'} - ${localCfg.schoolName}`;
+            document.title = (localCfg.programTitle || 'E-Tahfiz') + ' - ' + localCfg.schoolName;
           }
         } catch (e) {}
 
-        // 1. Jalankan pemutar audio Drive & ambil data Cloud di latar belakang
         setupDriveAudioAutoLoader(activeWebhook);
         syncCloudInBackground(activeWebhook);
 
-        // 2. Cek cache kompilasi Babel di sessionStorage (Gunakan versi V4 untuk memuat fitur URL Hash Routing)
-        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V4";
+        // Bersihkan cache versi lama agar tidak nyangkut
+        try {
+          sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V4");
+          sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V5");
+        } catch (e) {}
+
+        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V6_STABLE";
         let compiledCode = sessionStorage.getItem(CACHE_KEY);
 
         if (!compiledCode) {
-          const res = await fetch('./e_tahfiz_tilawah_smpn_4_malang.tsx');
-          if (!res.ok) throw new Error('File .tsx tidak ditemukan (Status: ' + res.status + ')');
+          // Coba muat nama file standar, jika tidak ada coba nama file dengan (1)
+          let res = await fetch('./e_tahfiz_tilawah_smpn_4_malang.tsx');
+          if (!res.ok) {
+            res = await fetch('./e_tahfiz_tilawah_smpn_4_malang%20(1).tsx');
+          }
+          if (!res.ok) throw new Error('File .tsx tidak ditemukan di repositori (Status: ' + res.status + ')');
+
           let tsxCode = await res.text();
 
-          if (activeWebhook && activeWebhook.startsWith("http") && activeWebhook !== "TEMPEL_URL_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI") {
+          // KRUSIAL: Normalisasi seluruh baris baru Windows (\r\n) menjadi (\n) agar pencocokan 100% akurat
+          tsxCode = tsxCode.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+          if (activeWebhook && activeWebhook.startsWith("http")) {
             tsxCode = tsxCode.replace(
               "https://script.google.com/macros/s/AKfycbz_SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK/exec",
               activeWebhook
             );
           }
 
-          // PATCH 0: AKTIFKAN URL HASH ROUTING (#murid-tahfiz, #guru-tahfiz, dll) & TOMBOL SALIN LINK HALAMAN
+          // ===================================================================
+          // 1. GANTI DATA SURAT MENJADI 30 JUZ LENGKAP + DATA NAGHAM & VIDEO TUTORIAL
+          // ===================================================================
+          const surahStartIdx = tsxCode.indexOf("const SURAHS_DATA = [");
+          const gradeStartIdx = tsxCode.indexOf("const GRADE_OPTIONS = [");
+
+          const replacementSurahAndNaghamData = `
+const ALL_114_SURAHS = [
+  [1, "Al-Fatihah", "Pembukaan", 7], [2, "Al-Baqarah", "Sapi Betina", 286], [3, "Ali 'Imran", "Keluarga Imran", 200],
+  [4, "An-Nisa'", "Wanita", 176], [5, "Al-Ma'idah", "Hidangan", 120], [6, "Al-An'am", "Binatang Ternak", 165],
+  [7, "Al-A'raf", "Tempat Tertinggi", 206], [8, "Al-Anfal", "Harta Rampasan Perang", 75], [9, "At-Taubah", "Pengampunan", 129],
+  [10, "Yunus", "Nabi Yunus", 109], [11, "Hud", "Nabi Hud", 123], [12, "Yusuf", "Nabi Yusuf", 111],
+  [13, "Ar-Ra'd", "Guruh", 43], [14, "Ibrahim", "Nabi Ibrahim", 52], [15, "Al-Hijr", "Pegunungan Al-Hijr", 99],
+  [16, "An-Nahl", "Lebah", 128], [17, "Al-Isra'", "Perjalanan Malam", 111], [18, "Al-Kahf", "Penghuni Gua", 110],
+  [19, "Maryam", "Maryam", 98], [20, "Taha", "Taha", 135], [21, "Al-Anbiya'", "Para Nabi", 112],
+  [22, "Al-Hajj", "Haji", 78], [23, "Al-Mu'minun", "Orang-Orang Mukmin", 118], [24, "An-Nur", "Cahaya", 64],
+  [25, "Al-Furqan", "Pembeda", 77], [26, "Asy-Syu'ara'", "Para Penyair", 227], [27, "An-Naml", "Semut", 93],
+  [28, "Al-Qasas", "Kisah-Kisah", 88], [29, "Al-'Ankabut", "Laba-Laba", 69], [30, "Ar-Rum", "Bangsa Romawi", 60],
+  [31, "Luqman", "Keluarga Luqman", 34], [32, "As-Sajdah", "Sajdah", 30], [33, "Al-Ahzab", "Golongan yang Bersekutu", 73],
+  [34, "Saba'", "Kaum Saba'", 54], [35, "Fatir", "Pencipta", 45], [36, "Yasin", "Yasin", 83],
+  [37, "As-Saffat", "Barisan-Barisan", 182], [38, "Sad", "Sad", 88], [39, "Az-Zumar", "Rombongan", 75],
+  [40, "Ghafir", "Yang Mengampuni", 85], [41, "Fussilat", "Yang Dijelaskan", 54], [42, "Asy-Syura", "Musyawarah", 53],
+  [43, "Az-Zukhruf", "Perhiasan", 89], [44, "Ad-Dukhan", "Kabut", 59], [45, "Al-Jasiyah", "Yang Berlutut", 37],
+  [46, "Al-Ahqaf", "Bukit-Bukit Pasir", 35], [47, "Muhammad", "Nabi Muhammad", 38], [48, "Al-Fath", "Kemenangan", 29],
+  [49, "Al-Hujurat", "Kamar-Kamar", 18], [50, "Qaf", "Qaf", 45], [51, "Az-Zariyat", "Angin yang Menerbangkan", 60],
+  [52, "At-Tur", "Bukit Tursina", 49], [53, "An-Najm", "Bintang", 62], [54, "Al-Qamar", "Bulan", 55],
+  [55, "Ar-Rahman", "Yang Maha Pengasih", 78], [56, "Al-Waqi'ah", "Hari Kiamat", 96], [57, "Al-Hadid", "Besi", 29],
+  [58, "Al-Mujadilah", "Wanita yang Mengajukan Gugatan", 22], [59, "Al-Hasyr", "Pengusiran", 24], [60, "Al-Mumtahanah", "Wanita yang Diuji", 13],
+  [61, "As-Saff", "Barisan", 14], [62, "Al-Jumu'ah", "Hari Jum'at", 11], [63, "Al-Munafiqun", "Orang-Orang Munafik", 11],
+  [64, "At-Tagabun", "Hari Dinampakkan Kesalahan", 18], [65, "At-Talaq", "Talak", 12], [66, "At-Tahrim", "Mengharamkan", 12],
+  [67, "Al-Mulk", "Kerajaan", 30], [68, "Al-Qalam", "Pena", 52], [69, "Al-Haqqah", "Hari Kiamat", 52],
+  [70, "Al-Ma'arij", "Tempat Naik", 44], [71, "Nuh", "Nabi Nuh", 28], [72, "Al-Jinn", "Jin", 28],
+  [73, "Al-Muzzammil", "Orang yang Berselimut", 20], [74, "Al-Muddassir", "Orang yang Berkemul", 56], [75, "Al-Qiyamah", "Hari Kiamat", 40],
+  [76, "Al-Insan", "Manusia", 31], [77, "Al-Mursalat", "Malaikat yang Diutus", 50], [78, "An-Naba'", "Berita Besar", 40],
+  [79, "An-Nazi'at", "Malaikat yang Mencabut", 46], [80, "'Abasa", "Ia Bermuka Masam", 42], [81, "At-Takwir", "Menggulung", 29],
+  [82, "Al-Infitar", "Terbelah", 19], [83, "Al-Mutaffifin", "Orang-Orang Curang", 36], [84, "Al-Insyiqaq", "Terbelah", 25],
+  [85, "Al-Buruj", "Gugusan Bintang", 22], [86, "At-Tariq", "Yang Datang di Malam Hari", 17], [87, "Al-A'la", "Yang Paling Tinggi", 19],
+  [88, "Al-Gasyiyah", "Hari Pembalasan", 26], [89, "Al-Fajr", "Fajar", 30], [90, "Al-Balad", "Negeri", 20],
+  [91, "Asy-Syams", "Matahari", 15], [92, "Al-Lail", "Malam", 21], [93, "Ad-Duha", "Waktu Duha", 11],
+  [94, "Asy-Syarh", "Melapangkan", 8], [95, "At-Tin", "Buah Tin", 8], [96, "Al-'Alaq", "Segumpal Darah", 19],
+  [97, "Al-Qadr", "Kemuliaan", 5], [98, "Al-Bayyinah", "Bukti Nyata", 8], [99, "Az-Zalzalah", "Kegoncangan", 8],
+  [100, "Al-'Adiyat", "Kuda Perang", 11], [101, "Al-Qari'ah", "Hari Kiamat", 11], [102, "At-Takasur", "Bermegah-megahan", 8],
+  [103, "Al-'Asr", "Masa", 3], [104, "Al-Humazah", "Pengumpat", 9], [105, "Al-Fil", "Gajah", 5],
+  [106, "Quraisy", "Suku Quraisy", 4], [107, "Al-Ma'un", "Barang-Barang Berguna", 7], [108, "Al-Kausar", "Nikmat yang Banyak", 3],
+  [109, "Al-Kafirun", "Orang-Orang Kafir", 6], [110, "An-Nasr", "Pertolongan", 3], [111, "Al-Lahab", "Gejolak Api", 5],
+  [112, "Al-Ikhlas", "Ikhlas", 4], [113, "Al-Falaq", "Waktu Subuh", 5], [114, "An-Nas", "Manusia", 6]
+];
+
+const JUZ_MAPPING_30 = [
+  { juz: 1, label: "Juz 1 (Alif Lam Mim)", items: [[1,1,7],[2,1,141]] },
+  { juz: 2, label: "Juz 2 (Sayaqulu)", items: [[2,142,252]] },
+  { juz: 3, label: "Juz 3 (Tilkar Rusul)", items: [[2,253,286],[3,1,92]] },
+  { juz: 4, label: "Juz 4 (Lan Tanalul Birra)", items: [[3,93,200],[4,1,23]] },
+  { juz: 5, label: "Juz 5 (Wal Muhsanat)", items: [[4,24,147]] },
+  { juz: 6, label: "Juz 6 (La Yuhibbullah)", items: [[4,148,176],[5,1,81]] },
+  { juz: 7, label: "Juz 7 (Wa Iza Sami'u)", items: [[5,82,120],[6,1,110]] },
+  { juz: 8, label: "Juz 8 (Wa Lau Annana)", items: [[6,111,165],[7,1,87]] },
+  { juz: 9, label: "Juz 9 (Qalal Mala'u)", items: [[7,88,206],[8,1,40]] },
+  { juz: 10, label: "Juz 10 (Wa'lamu)", items: [[8,41,75],[9,1,92]] },
+  { juz: 11, label: "Juz 11 (Ya'taziruna)", items: [[9,93,129],[10,1,109],[11,1,5]] },
+  { juz: 12, label: "Juz 12 (Wa Ma Min Dabbah)", items: [[11,6,123],[12,1,52]] },
+  { juz: 13, label: "Juz 13 (Wa Ma Ubarri'u)", items: [[12,53,111],[13,1,43],[14,1,52]] },
+  { juz: 14, label: "Juz 14 (Rubama)", items: [[15,1,99],[16,1,128]] },
+  { juz: 15, label: "Juz 15 (Subhanallazi)", items: [[17,1,111],[18,1,74]] },
+  { juz: 16, label: "Juz 16 (Qala Alam)", items: [[18,75,110],[19,1,98],[20,1,135]] },
+  { juz: 17, label: "Juz 17 (Iqtaraba)", items: [[21,1,112],[22,1,78]] },
+  { juz: 18, label: "Juz 18 (Qad Aflaha)", items: [[23,1,118],[24,1,64],[25,1,20]] },
+  { juz: 19, label: "Juz 19 (Wa Qalallazina)", items: [[25,21,77],[26,1,227],[27,1,55]] },
+  { juz: 20, label: "Juz 20 (Amman Khalaqa)", items: [[27,56,93],[28,1,88],[29,1,45]] },
+  { juz: 21, label: "Juz 21 (Utlu Ma Uhiya)", items: [[29,46,69],[30,1,60],[31,1,34],[32,1,30],[33,1,30]] },
+  { juz: 22, label: "Juz 22 (Wa Man Yaqnut)", items: [[33,31,73],[34,1,54],[35,1,45],[36,1,27]] },
+  { juz: 23, label: "Juz 23 (Wa Maliya)", items: [[36,28,83],[37,1,182],[38,1,88],[39,1,31]] },
+  { juz: 24, label: "Juz 24 (Faman Azlamu)", items: [[39,32,75],[40,1,85],[41,1,46]] },
+  { juz: 25, label: "Juz 25 (Ilaihi Yuraddu)", items: [[41,47,54],[42,1,53],[43,1,89],[44,1,59],[45,1,37]] },
+  { juz: 26, label: "Juz 26 (Ha Mim)", items: [[46,1,35],[47,1,38],[48,1,29],[49,1,18],[50,1,45],[51,1,30]] },
+  { juz: 27, label: "Juz 27 (Qala Fama Khatbukum)", items: [[51,31,60],[52,1,49],[53,1,62],[54,1,55],[55,1,78],[56,1,96],[57,1,29]] },
+  { juz: 28, label: "Juz 28 (Qad Sami'allahu)", items: [[58,1,22],[59,1,24],[60,1,13],[61,1,14],[62,1,11],[63,1,11],[64,1,18],[65,1,12],[66,1,12]] },
+  { juz: 29, label: "Juz 29 (Tabarakallazi - 11 Surat)", items: [[67,1,30],[68,1,52],[69,1,52],[70,1,44],[71,1,28],[72,1,28],[73,1,20],[74,1,56],[75,1,40],[76,1,31],[77,1,50]] },
+  { juz: 30, label: "Juz 30 (Juz 'Amma - 37 Surat)", items: Array.from({length: 37}, (_, idx) => { const n = 78 + idx; const s = ALL_114_SURAHS[n-1]; return [n, 1, s[3]]; }) }
+];
+
+const SURAHS_DATA = [];
+JUZ_MAPPING_30.forEach(jObj => {
+  jObj.items.forEach(([sNum, startA, endA]) => {
+    const meta = ALL_114_SURAHS[sNum - 1];
+    if (meta) {
+      SURAHS_DATA.push({
+        number: meta[0],
+        name: meta[1],
+        arti: meta[2],
+        ayat: meta[3],
+        juz: jObj.juz,
+        juzAyatStart: startA,
+        juzAyatEnd: endA
+      });
+    }
+  });
+});
+
+const NAGHAM_MAQAM_TREE = [
+  {
+    maqam: "Bayyati",
+    desc: "Irama pembuka utama yang lembut, khusyuk, dan tegas",
+    branches: [
+      "Bayyati Qarar (Nada Dasar / Rendah)",
+      "Bayyati Nawa (Nada Menengah)",
+      "Bayyati Syuri (Variasi Cengkok Halus)",
+      "Bayyati Husaini (Nada Naik / Dinamis)",
+      "Bayyati Jawab (Nada Tinggi)",
+      "Bayyati Jawabul Jawab (Nada Puncak Tertinggi)",
+      "Bayyati Kurdi",
+      "Semua Cabang Bayyati (Lengkap)"
+    ]
+  },
+  {
+    maqam: "Shoba",
+    desc: "Irama syahdu, mengharukan, dan menyentuh kalbu",
+    branches: [
+      "Shoba Asli (Dasar)",
+      "Shoba 'Ajam (Nada Menengah)",
+      "Shoba Jawab (Nada Tinggi)",
+      "Shoba Ma'al Bastanjar (Variasi Penutup)",
+      "Shoba Mahur",
+      "Semua Cabang Shoba (Lengkap)"
+    ]
+  },
+  {
+    maqam: "Nahawand",
+    desc: "Irama romantis, sedih, lembut, dan mengalir",
+    branches: [
+      "Nahawand Asli (Dasar)",
+      "Nahawand 'Ussyaq",
+      "Nahawand Murakkab",
+      "Nahawand Jawab (Nada Tinggi)",
+      "Nahawand Nakriz",
+      "Semua Cabang Nahawand (Lengkap)"
+    ]
+  },
+  {
+    maqam: "Hijaz",
+    desc: "Irama khas ketimuran yang agung, melankolis, dan tegas",
+    branches: [
+      "Hijaz Asli (Dasar)",
+      "Hijaz Kard (Nada Naik)",
+      "Hijaz Kurd",
+      "Hijaz Kar-Kurd (Nada Tinggi / Puncak)",
+      "Hijaz Syahnas",
+      "Semua Cabang Hijaz (Lengkap)"
+    ]
+  },
+  {
+    maqam: "Rost",
+    desc: "Irama gagah, bersemangat, dinamis, dan berwibawa",
+    branches: [
+      "Rost Asli (Dasar)",
+      "Rost Nawa (Nada Menengah)",
+      "Rost Syabir Alah (Nada Tinggi)",
+      "Rost Zanjiran (Variasi Cengkok Cepat)",
+      "Rost Ushairan",
+      "Semua Cabang Rost (Lengkap)"
+    ]
+  },
+  {
+    maqam: "Sikah",
+    desc: "Irama perlahan, tenang, khidmat, dan berwibawa",
+    branches: [
+      "Sikah Asli (Dasar)",
+      "Sikah Iraqi",
+      "Sikah Turki (Nada Tinggi)",
+      "Sikah Raml",
+      "Sikah Huzam",
+      "Semua Cabang Sikah (Lengkap)"
+    ]
+  },
+  {
+    maqam: "Jiharkah",
+    desc: "Irama manis, harmonis, dan menenangkan jiwa",
+    branches: [
+      "Jiharkah Asli (Dasar)",
+      "Jiharkah Nawa (Nada Menengah)",
+      "Jiharkah Jawab (Nada Tinggi)",
+      "Jiharkah Kurd",
+      "Semua Cabang Jiharkah (Lengkap)"
+    ]
+  },
+  {
+    maqam: "Kombinasi Maqam (Susunan MTQ)",
+    desc: "Rangkaian gabungan beberapa maqam dalam satu penampilan",
+    branches: [
+      "Bayyati - Hijaz - Nahawand - Rost",
+      "Bayyati - Shoba - Hijaz - Bayyati Penutup",
+      "Bayyati - Nahawand - Rost - Jiharkah",
+      "Rangkaian Lengkap 7 Maqam (MTQ)"
+    ]
+  }
+];
+
+const DEFAULT_TUTORIAL_VIDEOS = [
+  {
+    id: "TUT-TARTIL-1",
+    type: "tartil",
+    title: "1. Contoh Irama Nada Tartil Murottal - Nada Rost & Kurdi (Standar Setoran Tahfiz)",
+    maqamTag: "Irama Tartil Murottal",
+    description: "Contoh lantunan Al-Qur'an secara Tartil/Murottal dengan tempo terjaga, makhraj jelas, dan irama yang mudah diikuti murid.",
+    youtubeUrl: "https://www.youtube.com/watch?v=Ktync4j_nmA"
+  },
+  {
+    id: "TUT-TARTIL-2",
+    type: "tartil",
+    title: "2. Contoh Irama Nada Tartil - Nada Nahawand (Lembut & Syahdu untuk Muraja'ah)",
+    maqamTag: "Irama Tartil Nahawand",
+    description: "Panduan membaca Al-Qur'an secara Tartil menggunakan tangga nada Nahawand yang tenang dan khusyuk.",
+    youtubeUrl: "https://www.youtube.com/watch?v=Ktync4j_nmA"
+  },
+  {
+    id: "TUT-MUJAWWAD-1",
+    type: "mujawwad",
+    title: "1. Contoh Maqam Bayyati Lengkap (Qarar, Nawa, Syuri, Husaini, Jawab, Jawabul Jawab)",
+    maqamTag: "Maqam Bayyati & Cabangnya",
+    description: "Pelajari tahapan nada Maqam Bayyati mulai dari Qarar (nada rendah), Nawa, Syuri, Husaini, hingga Jawabul Jawab.",
+    youtubeUrl: "https://www.youtube.com/watch?v=Ktync4j_nmA"
+  },
+  {
+    id: "TUT-MUJAWWAD-2",
+    type: "mujawwad",
+    title: "2. Contoh Maqam Shoba, Hijaz, Nahawand, Rost, Sikah & Jiharkah (Tilawah Mujawwad)",
+    maqamTag: "7 Maqam Tilawah Mujawwad",
+    description: "Contoh variasi cengkok dan perpindahan antar maqam dalam Tilawah Al-Qur'an Mujawwad.",
+    youtubeUrl: "https://www.youtube.com/watch?v=Ktync4j_nmA"
+  }
+];
+
+function extractYouTubeEmbedUrl(rawUrl) {
+  const s = String(rawUrl || "").trim();
+  if (!s) return "";
+  if (s.includes("youtube.com/embed/")) return s;
+  let videoId = "";
+  if (s.includes("youtu.be/")) {
+    videoId = s.split("youtu.be/")[1].split("?")[0].split("&")[0].split("/")[0];
+  } else if (s.includes("watch?v=")) {
+    videoId = s.split("watch?v=")[1].split("&")[0].split("#")[0];
+  } else if (s.includes("/shorts/")) {
+    videoId = s.split("/shorts/")[1].split("?")[0].split("/")[0];
+  } else if (s.includes("/live/")) {
+    videoId = s.split("/live/")[1].split("?")[0].split("/")[0];
+  }
+  if (videoId && videoId.length === 11) {
+    return "https://www.youtube.com/embed/" + videoId + "?rel=0&modestbranding=1";
+  }
+  return s;
+}
+`;
+
+          if (surahStartIdx !== -1 && gradeStartIdx !== -1) {
+            tsxCode = tsxCode.slice(0, surahStartIdx) + replacementSurahAndNaghamData + "\n\n" + tsxCode.slice(gradeStartIdx);
+          }
+
+          // ===================================================================
+          // 2. AKTIFKAN HALAMAN 8 (TUTORIAL) PADA CONFIG & BAR NAVIGASI ATAS
+          // ===================================================================
+          tsxCode = tsxCode.replace(
+            "6: true  // Halaman 6: Orang Tua (Tilawah)",
+            "6: true, 8: true // Halaman 6 & Halaman 8 (Tutorial)"
+          );
+
+          tsxCode = tsxCode.replace(
+            "students: INITIAL_STUDENTS_DATA,",
+            "tutorialVideos: DEFAULT_TUTORIAL_VIDEOS, students: INITIAL_STUDENTS_DATA,"
+          );
+
+          tsxCode = tsxCode.replace(
+            "enabledPages: { ...DEFAULT_CONFIG.enabledPages, ...(parsed.enabledPages || {}) },",
+            "enabledPages: { ...DEFAULT_CONFIG.enabledPages, ...(parsed.enabledPages || {}), 8: (parsed.enabledPages && parsed.enabledPages[8] !== undefined) ? parsed.enabledPages[8] : true }, tutorialVideos: Array.isArray(parsed.tutorialVideos) && parsed.tutorialVideos.length > 0 ? parsed.tutorialVideos : DEFAULT_TUTORIAL_VIDEOS,"
+          );
+
+          tsxCode = tsxCode.replace(
+            "if (activePage >= 1 && activePage <= 6 && !config.enabledPages[activePage]) {",
+            "if (((activePage >= 1 && activePage <= 6) || activePage === 8) && !config.enabledPages[activePage]) {"
+          );
+
+          tsxCode = tsxCode.replace(
+            "const firstAvailable = [1, 2, 3, 4, 5, 6].find(id => config.enabledPages[id]) || 7;",
+            "const firstAvailable = [1, 2, 3, 4, 5, 6, 8].find(id => config.enabledPages[id]) || 7;"
+          );
+
+          tsxCode = tsxCode.replace(
+            '{ id: 6, short: "6. Orang Tua (Tilawah)", title: "Halaman 6: Portal Orang Tua (Tilawah Mujawwad)", group: "Tilawah Mujawwad", icon: Users },',
+            '{ id: 6, short: "6. Orang Tua (Tilawah)", title: "Halaman 6: Portal Orang Tua (Tilawah Mujawwad)", group: "Tilawah Mujawwad", icon: Users },\n    { id: 8, short: "7. Tutorial & Latihan", title: "Halaman Tutorial & Latihan Irama Nada (Tartil & Tilawah Mujawwad)", group: "Materi & Video", icon: Play },'
+          );
+
+          tsxCode = tsxCode.replace(
+            "grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-1.5",
+            "grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-1.5"
+          );
+
+          tsxCode = tsxCode.replace(
+            "{[1, 2, 3, 4, 5, 6].filter(num => config.enabledPages[num]).map(num => (",
+            "{[1, 2, 3, 4, 5, 6, 8].filter(num => config.enabledPages[num]).map(num => ("
+          );
+
+          tsxCode = tsxCode.replaceAll("(Juz 30 & Juz 29)", "(Lengkap Juz 1 s/d Juz 30)");
+
+          // Render Halaman 8 (Tutorial) di dalam <main>
+          tsxCode = tsxCode.replace(
+            "{/* HALAMAN 7: REKAPITULASI SPREADSHEET & INTEGRASI GOOGLE DRIVE */}",
+            `{/* HALAMAN 8: TUTORIAL & LATIHAN IRAMA NADA (TARTIL & TILAWAH MUJAWWAD) */}
+        {activePage === 8 && config.enabledPages[8] && (
+          <TutorialPracticePage
+            schoolName={config.schoolName}
+            tutorialVideos={config.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS}
+            adminPin={config.adminPin}
+            isAdminAuthenticated={isAdminAuthenticated}
+            setIsAdminAuthenticated={setIsAdminAuthenticated}
+            onUpdateVideos={(newVideos) => {
+              const nextCfg = { ...config, tutorialVideos: newVideos };
+              setConfig(nextCfg);
+              localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(nextCfg));
+              handleSyncConfigToSpreadsheet(nextCfg);
+              showToast("Daftar video tutorial YouTube berhasil diperbarui & disimpan!");
+            }}
+            onOpenAdmin={() => setShowAdminModal(true)}
+            onGoToRecord={(targetPage) => setActivePage(targetPage)}
+            showToast={showToast}
+          />
+        )}
+
+        {/* HALAMAN 7: REKAPITULASI SPREADSHEET & INTEGRASI GOOGLE DRIVE */}`
+          );
+
+          // Tambahkan Saklar Halaman Tutorial di Panel Admin (Tab 3) & Tab Video Tutorial (Tab 6)
+          tsxCode = tsxCode.replace(
+            '{ id: 6, name: "Halaman 6: Orang Tua Tilawah Mujawwad (Pemantauan)", desc: "Portal orang tua untuk memantau perkembangan Tilawah Mujawwad" }',
+            '{ id: 6, name: "Halaman 6: Orang Tua Tilawah Mujawwad (Pemantauan)", desc: "Portal orang tua untuk memantau perkembangan Tilawah Mujawwad" },\n    { id: 8, name: "Halaman 7: Tutorial & Latihan Irama (Tartil & Tilawah Mujawwad)", desc: "Halaman khusus contoh video YouTube embed irama nada Tartil & Maqam Tilawah Mujawwad (Hanya bisa diaktifkan oleh Admin)" }'
+          );
+
+          tsxCode = tsxCode.replace(
+            '{ id: "export", label: "6. Cloud & Export HTML", icon: FileCode }',
+            '{ id: "tutorial", label: "6. 🎬 Video Tutorial (" + (draftConfig.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).length + ")", icon: Play },\n                { id: "export", label: "7. Cloud & Export HTML", icon: FileCode }'
+          );
+
+          const adminTutorialTabJSX = `              {/* TAB ADMIN: KELOLA VIDEO TUTORIAL TARTIL & TILAWAH MUJAWWAD */}
+              {activeTab === "tutorial" && (
+                <div className="space-y-5">
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <div className="text-xs font-extrabold text-amber-950">🎬 Kelola Materi Video Tutorial & Latihan (Embed YouTube Langsung)</div>
+                      <div className="text-[11px] text-amber-800 mt-0.5">
+                        Tempelkan link YouTube biasa (<code>https://www.youtube.com/watch?v=...</code> atau <code>https://youtu.be/...</code>). Video otomatis dikonversi menjadi pemutar embed yang langsung bisa di-play di web.
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setDraftConfig(prev => ({
+                          ...prev,
+                          enabledPages: { ...prev.enabledPages, 8: !prev.enabledPages[8] }
+                        }))
+                      }
+                      className={"px-3.5 py-2 rounded-xl text-xs font-extrabold cursor-pointer shrink-0 " + (draftConfig.enabledPages[8] ? "bg-emerald-600 text-white" : "bg-rose-600 text-white")}
+                    >
+                      {draftConfig.enabledPages[8] ? "✅ Halaman Tutorial: AKTIF" : "🔒 Halaman Tutorial: NONAKTIF"}
+                    </button>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newVid = {
+                          id: "TUT-" + Date.now(),
+                          type: "tartil",
+                          title: "Contoh Irama Nada Tartil Baru",
+                          maqamTag: "Irama Tartil",
+                          description: "Penjelasan singkat mengenai contoh irama tartil...",
+                          youtubeUrl: "https://www.youtube.com/watch?v=Ktync4j_nmA"
+                        };
+                        setDraftConfig(prev => ({
+                          ...prev,
+                          tutorialVideos: [...(prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS), newVid]
+                        }));
+                        showToast("Slot video Tartil ditambahkan! Silakan ganti link YouTube-nya.");
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold cursor-pointer"
+                    >
+                      + Tambah Video Contoh Tartil
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newVid = {
+                          id: "TUT-" + Date.now(),
+                          type: "mujawwad",
+                          title: "Contoh Irama Tilawah Mujawwad Baru",
+                          maqamTag: "Maqam Tilawah Mujawwad",
+                          description: "Penjelasan singkat mengenai maqam dan cabangnya...",
+                          youtubeUrl: "https://www.youtube.com/watch?v=Ktync4j_nmA"
+                        };
+                        setDraftConfig(prev => ({
+                          ...prev,
+                          tutorialVideos: [...(prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS), newVid]
+                        }));
+                        showToast("Slot video Tilawah Mujawwad ditambahkan! Silakan ganti link YouTube-nya.");
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold cursor-pointer"
+                    >
+                      + Tambah Video Contoh Tilawah Mujawwad
+                    </button>
+                  </div>
+
+                  <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
+                    {(draftConfig.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).map((vid, idx) => (
+                      <div key={vid.id} className="p-4 rounded-2xl border border-slate-200 bg-slate-50 space-y-2.5 text-xs">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <span className="font-mono font-bold text-slate-500">Video #{idx + 1}</span>
+                          <div className="flex items-center gap-2">
+                            <select
+                              value={vid.type}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setDraftConfig(prev => ({
+                                  ...prev,
+                                  tutorialVideos: (prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).map(v => v.id === vid.id ? { ...v, type: val } : v)
+                                }));
+                              }}
+                              className="rounded-lg border border-slate-300 px-2.5 py-1 font-bold bg-white"
+                            >
+                              <option value="tartil">Kategori: Contoh Irama Nada Tartil</option>
+                              <option value="mujawwad">Kategori: Contoh Irama Tilawah Mujawwad</option>
+                            </select>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setDraftConfig(prev => ({
+                                  ...prev,
+                                  tutorialVideos: (prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).filter(v => v.id !== vid.id)
+                                }));
+                              }}
+                              className="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold cursor-pointer"
+                            >
+                              Hapus
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-12 gap-2">
+                          <div className="sm:col-span-8">
+                            <label className="block text-[11px] font-bold text-slate-600 mb-0.5">Judul Materi / Irama:</label>
+                            <input
+                              type="text"
+                              value={vid.title}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setDraftConfig(prev => ({
+                                  ...prev,
+                                  tutorialVideos: (prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).map(v => v.id === vid.id ? { ...v, title: val } : v)
+                                }));
+                              }}
+                              className="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-bold bg-white"
+                            />
+                          </div>
+                          <div className="sm:col-span-4">
+                            <label className="block text-[11px] font-bold text-slate-600 mb-0.5">Label Nada / Maqam:</label>
+                            <input
+                              type="text"
+                              value={vid.maqamTag || ""}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setDraftConfig(prev => ({
+                                  ...prev,
+                                  tutorialVideos: (prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).map(v => v.id === vid.id ? { ...v, maqamTag: val } : v)
+                                }));
+                              }}
+                              className="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-semibold bg-white"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-0.5">Link Video YouTube (Otomatis Di-Embed):</label>
+                          <input
+                            type="text"
+                            value={vid.youtubeUrl}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setDraftConfig(prev => ({
+                                ...prev,
+                                tutorialVideos: (prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).map(v => v.id === vid.id ? { ...v, youtubeUrl: val } : v)
+                              }));
+                            }}
+                            placeholder="https://www.youtube.com/watch?v=..."
+                            className="w-full rounded-lg border border-slate-300 px-3 py-1.5 font-mono bg-white text-emerald-800"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-600 mb-0.5">Deskripsi Singkat:</label>
+                          <input
+                            type="text"
+                            value={vid.description || ""}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setDraftConfig(prev => ({
+                                ...prev,
+                                tutorialVideos: (prev.tutorialVideos || DEFAULT_TUTORIAL_VIDEOS).map(v => v.id === vid.id ? { ...v, description: val } : v)
+                              }));
+                            }}
+                            className="w-full rounded-lg border border-slate-300 px-3 py-1.5 bg-white text-slate-700"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 6: SINKRONISASI SPREADSHEET & EXPORT HTML MANDIRI */}`;
+
+          tsxCode = tsxCode.replace(
+            "{/* TAB 6: SINKRONISASI SPREADSHEET & EXPORT HTML MANDIRI */}",
+            adminTutorialTabJSX
+          );
+
+          // ===================================================================
+          // 3. GANTI BLOK STUDENTRECORDINGPAGE SECARA UTUH (JUZ 1-30 + NAGHAM & CABANGNYA)
+          //    DAN TAMBAHKAN KOMPONEN TUTORIALPRACTICEPAGE (YOUTUBE EMBED)
+          // ===================================================================
+          const studentStartIdx = tsxCode.indexOf("function StudentRecordingPage({");
+          const teacherStartIdx = tsxCode.indexOf("function TeacherEvaluationPage({");
+
+          const replacementStudentAndTutorialPages = `
+function StudentRecordingPage({
+  pageNumber,
+  category,
+  title,
+  subtitle,
+  schoolName,
+  students,
+  records,
+  onSaveRecord,
+  showToast
+}) {
+  const isTilawah = category === 'tilawah';
+  const [selectedStudentId, setSelectedStudentId] = useState(students[0]?.id || "");
+  const [confirmedStudent, setConfirmedStudent] = useState(null);
+
+  useEffect(() => {
+    if (students.length > 0 && !students.some(s => s.id === selectedStudentId)) {
+      setSelectedStudentId(students[0].id);
+    }
+  }, [students, selectedStudentId]);
+
+  // Pilihan Juz 1 s/d Juz 30 & Surat
+  const [selectedJuz, setSelectedJuz] = useState(30);
+  const filteredSurahs = SURAHS_DATA.filter(s => s.juz === Number(selectedJuz));
+  const [selectedSurahNum, setSelectedSurahNum] = useState(78);
+  const currentSurah = filteredSurahs.find(s => s.number === Number(selectedSurahNum)) || filteredSurahs[0] || SURAHS_DATA[0];
+
+  const [ayatStart, setAyatStart] = useState(1);
+  const [ayatEnd, setAyatEnd] = useState(10);
+
+  // Pilihan Maqam Nagham & Cabang / Tingkatan Nadanya
+  const [selectedMaqam, setSelectedMaqam] = useState(NAGHAM_MAQAM_TREE[0].maqam);
+  const currentMaqamObj = NAGHAM_MAQAM_TREE.find(m => m.maqam === selectedMaqam) || NAGHAM_MAQAM_TREE[0];
+  const [selectedNaghamBranch, setSelectedNaghamBranch] = useState(NAGHAM_MAQAM_TREE[0].branches[0]);
+  const naghamStyle = selectedMaqam + " — " + selectedNaghamBranch;
+
+  const handleMaqamChange = (newMaqam) => {
+    setSelectedMaqam(newMaqam);
+    const found = NAGHAM_MAQAM_TREE.find(m => m.maqam === newMaqam);
+    if (found && found.branches.length > 0) {
+      setSelectedNaghamBranch(found.branches[0]);
+    }
+  };
+
+  // State Perekaman Suara
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingSeconds, setRecordingSeconds] = useState(0);
+  const [recordedAudioUrl, setRecordedAudioUrl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [waveBars, setWaveBars] = useState(Array(20).fill(18));
+
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const timerRef = useRef(null);
+
+  const handleJuzChange = (newJuz) => {
+    const j = Number(newJuz);
+    setSelectedJuz(j);
+    const firstSurah = SURAHS_DATA.find(s => s.juz === j);
+    if (firstSurah) {
+      setSelectedSurahNum(firstSurah.number);
+      const startA = firstSurah.juzAyatStart || 1;
+      const endA = firstSurah.juzAyatEnd || firstSurah.ayat;
+      setAyatStart(startA);
+      setAyatEnd(Math.min(startA + 9, endA));
+    }
+  };
+
+  const handleSurahChange = (surahNum) => {
+    const sNum = Number(surahNum);
+    setSelectedSurahNum(sNum);
+    const sObj = SURAHS_DATA.find(s => s.juz === Number(selectedJuz) && s.number === sNum) || SURAHS_DATA.find(s => s.number === sNum);
+    if (sObj) {
+      const startA = sObj.juzAyatStart || 1;
+      const endA = sObj.juzAyatEnd || sObj.ayat;
+      setAyatStart(startA);
+      setAyatEnd(Math.min(startA + 9, endA));
+    }
+  };
+
+  const handleConfirmStudent = (e) => {
+    e.preventDefault();
+    const std = students.find(s => s.id === selectedStudentId);
+    if (std) {
+      setConfirmedStudent(std);
+      setRecordedAudioUrl(null);
+      setRecordingSeconds(0);
+      showToast("Murid " + std.name + " (" + std.kelas + ") dipilih. Silakan pilih Juz (1-30), Surat & mulai merekam.");
+    }
+  };
+
+  useEffect(() => {
+    if (isRecording) {
+      timerRef.current = setInterval(() => {
+        setRecordingSeconds(prev => prev + 1);
+        setWaveBars(Array.from({ length: 20 }, () => Math.floor(Math.random() * 75) + 15));
+      }, 1000);
+    } else {
+      clearInterval(timerRef.current);
+      setWaveBars(Array(20).fill(18));
+    }
+    return () => clearInterval(timerRef.current);
+  }, [isRecording]);
+
+  const formatDuration = (sec) => {
+    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+    const s = String(sec % 60).padStart(2, '0');
+    return m + ":" + s;
+  };
+
+  const startRecording = async () => {
+    setRecordedAudioUrl(null);
+    setRecordingSeconds(0);
+    audioChunksRef.current = [];
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+          ? 'audio/webm;codecs=opus'
+          : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : '');
+        const mediaRecorder = mime
+          ? new MediaRecorder(stream, { mimeType: mime, audioBitsPerSecond: 32000 })
+          : new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size > 0) {
+            audioChunksRef.current.push(event.data);
+          }
+        };
+
+        mediaRecorder.onstop = () => {
+          stream.getTracks().forEach(track => track.stop());
+          if (audioChunksRef.current.length > 0) {
+            const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
+            const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              if (typeof reader.result === 'string') setRecordedAudioUrl(reader.result);
+            };
+            reader.readAsDataURL(audioBlob);
+          } else {
+            const simUrl = generateSimulatedMurottalWav(5, category);
+            setRecordedAudioUrl(simUrl);
+          }
+        };
+
+        mediaRecorder.start();
+        setIsRecording(true);
+        showToast("Perekaman suara dimulai... Silakan lantunkan ayat Al-Qur'an.");
+        return;
+      } catch (err) {}
+    }
+
+    mediaRecorderRef.current = null;
+    setIsRecording(true);
+    showToast("Mode Perekaman Aktif (Simulasi Audio Otomatis). Silakan lantunkan bacaan Anda.");
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
+    } else {
+      const simUrl = generateSimulatedMurottalWav(Math.max(4, Math.min(recordingSeconds || 5, 10)), category);
+      setRecordedAudioUrl(simUrl);
+    }
+    setIsRecording(false);
+    showToast("Perekaman selesai! Silakan putar ulang atau simpan ke Google Drive & Spreadsheet.");
+  };
+
+  const handleSaveToDriveAndSheet = () => {
+    if (!confirmedStudent) {
+      showToast("Pilih nama murid dan klik OK terlebih dahulu!", "error");
+      return;
+    }
+    if (!recordedAudioUrl) {
+      showToast("Silakan lakukan perekaman suara terlebih dahulu!", "error");
+      return;
+    }
+
+    const start = Math.max(1, Number(ayatStart) || 1);
+    const end = Math.max(start, Math.min(currentSurah.ayat, Number(ayatEnd) || start));
+
+    setIsUploading(true);
+    setTimeout(() => {
+      const now = new Date();
+      const timestampStr = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, '0') + "-" + String(now.getDate()).padStart(2, '0') + " " + String(now.getHours()).padStart(2, '0') + ":" + String(now.getMinutes()).padStart(2, '0') + " WIB";
+      const cleanName = confirmedStudent.name.replace(/[^a-zA-Z]/g, '');
+      const cleanSurah = currentSurah.name.replace(/[^a-zA-Z]/g, '');
+      const prefix = isTilawah ? 'TLW' : 'THF';
+      const driveFileName = prefix + "_" + cleanName + "_Juz" + selectedJuz + "_" + cleanSurah + "_Ayat" + start + "-" + end + ".webm";
+
+      const newRecord = {
+        id: "REC-" + prefix + "-" + Date.now().toString().slice(-4),
+        category,
+        studentId: confirmedStudent.id,
+        studentName: confirmedStudent.name,
+        kelas: confirmedStudent.kelas,
+        juz: Number(selectedJuz),
+        surahNumber: currentSurah.number,
+        surahName: currentSurah.name,
+        ayatStart: start,
+        ayatEnd: end,
+        nagham: isTilawah ? naghamStyle : undefined,
+        duration: formatDuration(Math.max(1, recordingSeconds)),
+        timestamp: timestampStr,
+        driveFileId: driveFileName,
+        driveUrl: isTilawah
+          ? "https://drive.google.com/drive/folders/tilawah-audio"
+          : "https://drive.google.com/drive/folders/tahfiz-audio",
+        sheetStatus: "Terekap di Sheet_" + (isTilawah ? "Tilawah" : "Tahfiz"),
+        audioUrl: recordedAudioUrl,
+        grade: "",
+        teacherName: "",
+        teacherComment: "",
+        parentComment: ""
+      };
+
+      onSaveRecord(newRecord);
+      setIsUploading(false);
+      setRecordedAudioUrl(null);
+      setRecordingSeconds(0);
+    }, 600);
+  };
+
+  const studentRecords = confirmedStudent
+    ? records.filter(r => r.studentId === confirmedStudent.id)
+    : records;
+
+  return (
+    <div className="space-y-6">
+      <div
+        style={{
+          background: isTilawah
+            ? 'linear-gradient(90deg, var(--accent-color), var(--primary-color))'
+            : 'linear-gradient(90deg, var(--primary-color), var(--secondary-color))'
+        }}
+        className="rounded-2xl p-6 text-white shadow-md"
+      >
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/25 text-white mb-2">
+              {isTilawah ? <Music className="w-3.5 h-3.5" /> : <Mic className="w-3.5 h-3.5" />}
+              <span>Halaman {pageNumber} • Portal Murid {schoolName}</span>
+            </span>
+            <h3 className="text-xl sm:text-2xl font-extrabold">{title}</h3>
+            <p className="text-xs sm:text-sm text-white/90 mt-1">{subtitle}</p>
+          </div>
+          <div className="bg-black/20 backdrop-blur-xs rounded-xl px-4 py-3 border border-white/20 text-xs shrink-0">
+            <div className="font-bold" style={{ color: 'var(--accent-color)' }}>Penyimpanan Otomatis:</div>
+            <div className="flex items-center gap-1.5 mt-1">
+              <FolderGit2 className="w-4 h-4" />
+              <span>Google Drive Audio ({isTilawah ? 'Folder Tilawah' : 'Folder Tahfiz'})</span>
+            </div>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <FileSpreadsheet className="w-4 h-4" />
+              <span>Google Spreadsheet ({isTilawah ? 'Sheet_Tilawah' : 'Sheet_Tahfiz'})</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* LANGKAH 1: PILIH NAMA MURID */}
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 sm:p-6">
+        <h4 className="text-base font-bold text-slate-800 flex items-center gap-2 mb-4">
+          <span
+            style={{ backgroundColor: 'var(--primary-color)' }}
+            className="w-6 h-6 rounded-full text-xs font-bold text-white flex items-center justify-center"
+          >
+            1
+          </span>
+          <span>Pilih Nama Murid & Tekan Tombol OK</span>
+        </h4>
+
+        <form onSubmit={handleConfirmStudent} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+          <div className="sm:col-span-9">
+            <label className="block text-xs font-semibold text-slate-600 mb-1">
+              Daftar Nama Murid {schoolName} ({students.length} Murid):
+            </label>
+            <select
+              value={selectedStudentId}
+              onChange={(e) => setSelectedStudentId(e.target.value)}
+              className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-semibold text-slate-800 bg-slate-50 focus:outline-none"
+            >
+              {students.map((std, idx) => (
+                <option key={std.id} value={std.id}>
+                  {idx + 1}. {std.name} — Kelas {std.kelas}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="sm:col-span-3">
+            <button
+              type="submit"
+              style={{ backgroundColor: 'var(--primary-color)' }}
+              className="w-full py-2.5 px-5 rounded-xl font-bold text-sm text-white shadow-sm hover:opacity-95 transition cursor-pointer flex items-center justify-center gap-2"
+            >
+              <Check className="w-4 h-4" />
+              <span>OK (Pilih Murid)</span>
+            </button>
+          </div>
+        </form>
+
+        {confirmedStudent && (
+          <div className="mt-4 p-3.5 rounded-xl border bg-slate-50 border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4 shrink-0" style={{ color: 'var(--primary-color)' }} />
+              <span>
+                Murid Aktif: <strong>{confirmedStudent.name}</strong> • Kelas: <strong>{confirmedStudent.kelas}</strong> • ID: <code className="font-mono">{confirmedStudent.id}</code>
+              </span>
+            </div>
+            <span
+              style={{ backgroundColor: 'var(--primary-color)' }}
+              className="px-2.5 py-0.5 rounded-full font-bold text-white"
+            >
+              Siap Merekam {isTilawah ? 'Tilawah Mujawwad' : 'Hafalan Tahfiz'}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* LANGKAH 2: PILIH JUZ (1-30), SURAT, AYAT & NAGHAM BESERTA CABANGNYA */}
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <h4 className="text-base font-bold text-slate-800 flex items-center gap-2">
+            <span
+              style={{ backgroundColor: 'var(--primary-color)' }}
+              className="w-6 h-6 rounded-full text-xs font-bold text-white flex items-center justify-center"
+            >
+              2
+            </span>
+            <span>Pilih Juz (Juz 1 s/d Juz 30), Surat, Nomor Ayat {isTilawah ? '& Cabang Nagham Tilawah' : '& Mulai Perekaman'}</span>
+          </h4>
+          {!confirmedStudent && (
+            <span className="text-xs font-semibold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+              💡 Klik tombol "OK (Pilih Murid)" pada Langkah 1 terlebih dahulu
+            </span>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-6 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">Pilih Juz Al-Qur'an (Juz 1 - 30):</label>
+                <select
+                  value={selectedJuz}
+                  onChange={(e) => handleJuzChange(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-bold text-slate-800 bg-slate-50"
+                >
+                  {JUZ_MAPPING_30.map(j => (
+                    <option key={j.juz} value={j.juz}>
+                      {j.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">Pilih Nama Surat (Juz {selectedJuz}):</label>
+                <select
+                  value={selectedSurahNum}
+                  onChange={(e) => handleSurahChange(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-bold text-slate-800 bg-slate-50"
+                >
+                  {filteredSurahs.map(s => (
+                    <option key={s.juz + "-" + s.number} value={s.number}>
+                      {s.number}. QS. {s.name} (Ayat {s.juzAyatStart}-{s.juzAyatEnd} • Total {s.ayat} Ayat)
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                  Mulai Nomor Ayat (1 - {currentSurah.ayat}):
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={currentSurah.ayat}
+                  value={ayatStart}
+                  onChange={(e) => setAyatStart(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-bold text-slate-800 bg-slate-50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                  Sampai Nomor Ayat (Maks {currentSurah.ayat}):
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={currentSurah.ayat}
+                  value={ayatEnd}
+                  onChange={(e) => setAyatEnd(e.target.value)}
+                  className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-bold text-slate-800 bg-slate-50"
+                />
+              </div>
+            </div>
+
+            {isTilawah && (
+              <div className="p-3.5 rounded-2xl bg-amber-50/90 border border-amber-300 space-y-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-bold text-amber-950 mb-1">
+                      1. Pilih Jenis Maqam Nagham Utama:
+                    </label>
+                    <select
+                      value={selectedMaqam}
+                      onChange={(e) => handleMaqamChange(e.target.value)}
+                      className="w-full rounded-xl border border-amber-300 px-3 py-2.5 text-sm font-bold text-slate-900 bg-white"
+                    >
+                      {NAGHAM_MAQAM_TREE.map(item => (
+                        <option key={item.maqam} value={item.maqam}>
+                          Maqam {item.maqam}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-amber-950 mb-1">
+                      2. Pilih Cabang / Tingkatan Nada ({selectedMaqam}):
+                    </label>
+                    <select
+                      value={selectedNaghamBranch}
+                      onChange={(e) => setSelectedNaghamBranch(e.target.value)}
+                      className="w-full rounded-xl border border-amber-300 px-3 py-2.5 text-sm font-bold text-slate-900 bg-white"
+                    >
+                      {currentMaqamObj.branches.map(branch => (
+                        <option key={branch} value={branch}>
+                          {branch}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="text-[11px] text-amber-900 flex flex-wrap items-center justify-between gap-1">
+                  <span>🎵 Karakter: <em>{currentMaqamObj.desc}</em></span>
+                  <span className="font-bold bg-amber-200/80 px-2 py-0.5 rounded text-amber-950">
+                    Dipilih: {naghamStyle}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <div className="p-3.5 rounded-xl bg-slate-100 border border-slate-200 text-xs space-y-1">
+              <div className="font-bold text-slate-700">Ringkasan Target Setoran:</div>
+              <div className="text-slate-600">
+                Surat: <strong>QS. {currentSurah.name} ({currentSurah.arti})</strong> • Juz {selectedJuz} • Ayat <strong>{ayatStart} s/d {ayatEnd}</strong>
+                {isTilawah && (
+                  <span className="block mt-1 text-amber-800 font-semibold">
+                    Nagham Tilawah: {naghamStyle}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Studio Perekam Suara */}
+          <div className="lg:col-span-6 flex flex-col justify-between bg-slate-900 text-white rounded-2xl p-5 border border-slate-800">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Volume2 className="w-4 h-4" style={{ color: 'var(--accent-color)' }} />
+                Studio Perekam {isTilawah ? 'Tilawah Mujawwad' : 'Tahfiz'}
+              </span>
+              <span className={"px-2.5 py-0.5 rounded-full text-xs font-mono font-bold " + (isRecording ? "bg-rose-600 text-white animate-pulse" : "bg-slate-800 text-emerald-300")}>
+                {isRecording ? "● REC " + formatDuration(recordingSeconds) : formatDuration(recordingSeconds)}
+              </span>
+            </div>
+
+            <div className="my-5 h-16 flex items-center justify-center gap-1.5 px-4 bg-slate-950/70 rounded-xl border border-slate-800">
+              {waveBars.map((height, i) => (
+                <div
+                  key={i}
+                  style={{
+                    height: height + "%",
+                    backgroundColor: isRecording ? 'var(--accent-color)' : '#334155'
+                  }}
+                  className="w-2 rounded-full transition-all duration-300"
+                />
+              ))}
+            </div>
+
+            <div className="space-y-3">
+              {!isRecording ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!confirmedStudent) {
+                      const std = students.find(s => s.id === selectedStudentId);
+                      setConfirmedStudent(std);
+                    }
+                    startRecording();
+                  }}
+                  style={{ backgroundColor: 'var(--primary-color)' }}
+                  className="w-full py-3 px-4 rounded-xl font-bold text-sm text-white shadow-lg hover:opacity-95 transition cursor-pointer flex items-center justify-center gap-2"
+                >
+                  <Mic className="w-5 h-5" />
+                  <span>Mulai Perekaman {isTilawah ? 'Tilawah Mujawwad' : 'Hafalan'}</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={stopRecording}
+                  className="w-full py-3 px-4 rounded-xl font-bold text-sm bg-rose-600 hover:bg-rose-500 text-white shadow-lg transition cursor-pointer flex items-center justify-center gap-2 animate-pulse"
+                >
+                  <Square className="w-5 h-5" />
+                  <span>Hentikan Perekaman (Selesai)</span>
+                </button>
+              )}
+
+              {recordedAudioUrl && (
+                <div className="p-3.5 rounded-xl bg-slate-800/90 border border-slate-700 space-y-3">
+                  <div className="text-xs font-semibold text-emerald-300 flex items-center justify-between">
+                    <span>Preview Hasil Rekaman Suara:</span>
+                    <span>Durasi: {formatDuration(Math.max(1, recordingSeconds))}</span>
+                  </div>
+                  <audio controls src={recordedAudioUrl} className="w-full h-9" />
+                  <button
+                    type="button"
+                    disabled={isUploading}
+                    onClick={handleSaveToDriveAndSheet}
+                    style={{ backgroundColor: 'var(--accent-color)' }}
+                    className="w-full py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm text-slate-950 shadow transition cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <Upload className="w-4 h-4" />
+                    <span>
+                      {isUploading
+                        ? 'Menyimpan ke Google Drive & Spreadsheet...'
+                        : 'Simpan Rekaman ke Google Drive & Rekap Spreadsheet'}
+                    </span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* TABEL RIWAYAT REKAMAN */}
+      <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <h4 className="text-base font-bold text-slate-800 flex items-center gap-2">
+            <FileSpreadsheet className="w-5 h-5" style={{ color: 'var(--primary-color)' }} />
+            <span>
+              Data Rekaman {isTilawah ? 'Tilawah Mujawwad' : 'Tahfiz'} yang Tersimpan di Drive & Spreadsheet
+              {confirmedStudent ? " (" + confirmedStudent.name + ")" : ""}
+            </span>
+          </h4>
+          {confirmedStudent && (
+            <button
+              onClick={() => setConfirmedStudent(null)}
+              style={{ color: 'var(--primary-color)' }}
+              className="text-xs font-semibold hover:underline cursor-pointer"
+            >
+              Tampilkan Semua Murid ({records.length})
+            </button>
+          )}
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr className="bg-slate-100 text-slate-700 border-b border-slate-200">
+                <th className="p-3 font-bold">Waktu</th>
+                <th className="p-3 font-bold">Nama Murid</th>
+                <th className="p-3 font-bold">Surat, Ayat {isTilawah ? '& Nagham' : ''}</th>
+                <th className="p-3 font-bold">File Google Drive</th>
+                <th className="p-3 font-bold">Putar Audio</th>
+                <th className="p-3 font-bold">Status Spreadsheet</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200">
+              {studentRecords.map((rec) => (
+                <tr key={rec.id} className="hover:bg-slate-50">
+                  <td className="p-3 whitespace-nowrap text-slate-500">{rec.timestamp}</td>
+                  <td className="p-3 font-bold text-slate-800">
+                    {rec.studentName} <span className="text-slate-500 font-normal">({rec.kelas})</span>
+                  </td>
+                  <td className="p-3">
+                    <span className="font-bold" style={{ color: 'var(--primary-color)' }}>Juz {rec.juz} • QS. {rec.surahName}</span>
+                    <span className="block text-slate-500">Ayat {rec.ayatStart} s/d {rec.ayatEnd}</span>
+                    {rec.nagham && (
+                      <span className="inline-block mt-0.5 px-2 py-0.5 rounded bg-amber-100 text-amber-900 font-semibold text-[11px]">
+                        🎵 {rec.nagham}
+                      </span>
+                    )}
+                  </td>
+                  <td className="p-3 font-mono text-[11px] text-slate-600">
+                    <div className="flex items-center gap-1">
+                      <FolderGit2 className="w-3.5 h-3.5 shrink-0" style={{ color: 'var(--accent-color)' }} />
+                      <span className="truncate max-w-[200px]">{rec.driveFileId}</span>
+                    </div>
+                  </td>
+                  <td className="p-3 min-w-[210px]">
+                    <audio controls src={rec.audioUrl} className="w-48 h-8" />
+                  </td>
+                  <td className="p-3">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">
+                      <CheckCircle2 className="w-3 h-3" /> {rec.sheetStatus}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// KOMPONEN HALAMAN 8: TUTORIAL & LATIHAN IRAMA NADA (TARTIL & TILAWAH MUJAWWAD)
+// ============================================================================
+function TutorialPracticePage({
+  schoolName,
+  tutorialVideos,
+  adminPin,
+  isAdminAuthenticated,
+  setIsAdminAuthenticated,
+  onUpdateVideos,
+  onOpenAdmin,
+  onGoToRecord,
+  showToast
+}) {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedMaqamGuide, setSelectedMaqamGuide] = useState(NAGHAM_MAQAM_TREE[0].maqam);
+  const [editingVideoId, setEditingVideoId] = useState(null);
+  const [draftTitle, setDraftTitle] = useState("");
+  const [draftTag, setDraftTag] = useState("");
+  const [draftUrl, setDraftUrl] = useState("");
+  const [draftDesc, setDraftDesc] = useState("");
+  const [pinPromptInput, setPinPromptInput] = useState("");
+
+  const videoList = Array.isArray(tutorialVideos) && tutorialVideos.length > 0 ? tutorialVideos : DEFAULT_TUTORIAL_VIDEOS;
+  const tartilVideos = videoList.filter(v => v.type === "tartil");
+  const mujawwadVideos = videoList.filter(v => v.type === "mujawwad");
+  const activeMaqamObj = NAGHAM_MAQAM_TREE.find(m => m.maqam === selectedMaqamGuide) || NAGHAM_MAQAM_TREE[0];
+
+  const startEditVideo = (vid) => {
+    setEditingVideoId(vid.id);
+    setDraftTitle(vid.title || "");
+    setDraftTag(vid.maqamTag || "");
+    setDraftUrl(vid.youtubeUrl || "");
+    setDraftDesc(vid.description || "");
+  };
+
+  const handleSaveQuickEdit = (vidId) => {
+    if (!isAdminAuthenticated) {
+      if (pinPromptInput.trim() !== String(adminPin || "999999")) {
+        showToast("Masukkan PIN Admin (" + (adminPin || "999999") + ") untuk menyimpan perubahan video!", "error");
+        return;
+      }
+      setIsAdminAuthenticated(true);
+    }
+    const updated = videoList.map(v => v.id === vidId ? {
+      ...v,
+      title: draftTitle.trim() || v.title,
+      maqamTag: draftTag.trim() || v.maqamTag,
+      youtubeUrl: draftUrl.trim() || v.youtubeUrl,
+      description: draftDesc.trim()
+    } : v);
+    onUpdateVideos(updated);
+    setEditingVideoId(null);
+  };
+
+  const renderVideoCard = (vid, badgeBg, labelType) => {
+    const embedUrl = extractYouTubeEmbedUrl(vid.youtubeUrl);
+    const isEditing = editingVideoId === vid.id;
+
+    return (
+      <div
+        key={vid.id}
+        className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col justify-between"
+      >
+        <div className="p-4 space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <span className={"px-2.5 py-0.5 rounded-full text-[11px] font-bold " + badgeBg}>
+              {vid.maqamTag || labelType}
+            </span>
+            <button
+              type="button"
+              onClick={() => isEditing ? setEditingVideoId(null) : startEditVideo(vid)}
+              className="text-[11px] font-bold text-slate-500 hover:text-slate-900 flex items-center gap-1 cursor-pointer bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded-md"
+            >
+              <Edit3 className="w-3 h-3" />
+              <span>{isEditing ? "Tutup Edit" : "Ganti Video (Admin)"}</span>
+            </button>
+          </div>
+
+          <h5 className="text-sm font-extrabold text-slate-900 leading-snug">
+            {vid.title}
+          </h5>
+
+          {vid.description && (
+            <p className="text-xs text-slate-600 leading-relaxed">
+              {vid.description}
+            </p>
+          )}
+
+          {isEditing && (
+            <div className="mt-2 p-3 rounded-xl bg-amber-50 border border-amber-300 space-y-2 text-xs">
+              <div className="font-bold text-amber-950">✏️ Ubah Judul & Link Video YouTube:</div>
+              <input
+                type="text"
+                value={draftTitle}
+                onChange={(e) => setDraftTitle(e.target.value)}
+                placeholder="Judul Materi Video..."
+                className="w-full rounded-lg border border-amber-300 px-2.5 py-1.5 bg-white font-bold"
+              />
+              <input
+                type="text"
+                value={draftTag}
+                onChange={(e) => setDraftTag(e.target.value)}
+                placeholder="Label Maqam / Nada..."
+                className="w-full rounded-lg border border-amber-300 px-2.5 py-1.5 bg-white"
+              />
+              <input
+                type="text"
+                value={draftUrl}
+                onChange={(e) => setDraftUrl(e.target.value)}
+                placeholder="Tempel link YouTube (https://www.youtube.com/watch?v=...)"
+                className="w-full rounded-lg border border-amber-300 px-2.5 py-1.5 bg-white font-mono text-emerald-800"
+              />
+              <input
+                type="text"
+                value={draftDesc}
+                onChange={(e) => setDraftDesc(e.target.value)}
+                placeholder="Keterangan singkat..."
+                className="w-full rounded-lg border border-amber-300 px-2.5 py-1.5 bg-white"
+              />
+              {!isAdminAuthenticated && (
+                <input
+                  type="password"
+                  value={pinPromptInput}
+                  onChange={(e) => setPinPromptInput(e.target.value)}
+                  placeholder={"Masukkan PIN Admin (" + (adminPin || "999999") + ")"}
+                  className="w-full rounded-lg border border-amber-400 px-2.5 py-1.5 bg-white font-mono font-bold"
+                />
+              )}
+              <div className="flex justify-end gap-1.5 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setEditingVideoId(null)}
+                  className="px-3 py-1 rounded-lg bg-slate-200 text-slate-700 font-bold cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSaveQuickEdit(vid.id)}
+                  style={{ backgroundColor: 'var(--primary-color)' }}
+                  className="px-3 py-1 rounded-lg text-white font-bold cursor-pointer"
+                >
+                  Simpan Video
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="bg-slate-950 aspect-video w-full border-t border-slate-200">
+          {embedUrl ? (
+            <iframe
+              src={embedUrl}
+              title={vid.title}
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-xs text-slate-400 p-4 text-center">
+              Link video belum diatur. Klik "Ganti Video (Admin)" untuk menempelkan link YouTube.
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* HEADER TUTORIAL */}
+      <div
+        style={{ background: 'linear-gradient(90deg, var(--primary-color), var(--secondary-color))' }}
+        className="rounded-2xl p-6 text-white shadow-md"
+      >
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <span
+              style={{ backgroundColor: 'var(--accent-color)' }}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider text-slate-950 mb-2"
+            >
+              <Play className="w-3.5 h-3.5" />
+              <span>Pusat Tutorial & Latihan Irama • {schoolName}</span>
+            </span>
+            <h3 className="text-xl sm:text-2xl font-extrabold">
+              Tutorial & Contoh Irama Nada Tartil serta Tilawah Mujawwad
+            </h3>
+            <p className="text-xs sm:text-sm text-white/90 mt-1">
+              Putar langsung video contoh irama Tartil dan Tilawah Mujawwad di halaman ini tanpa keluar aplikasi, pelajari struktur cabang Maqam Nagham, lalu praktikkan di halaman perekaman.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => onGoToRecord(1)}
+              className="px-3.5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold border border-white/20 flex items-center gap-1.5 cursor-pointer"
+            >
+              <Mic className="w-4 h-4" />
+              <span>Rekam Tahfiz</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => onGoToRecord(4)}
+              style={{ backgroundColor: 'var(--accent-color)' }}
+              className="px-3.5 py-2.5 rounded-xl text-slate-950 text-xs font-extrabold shadow flex items-center gap-1.5 cursor-pointer"
+            >
+              <Music className="w-4 h-4" />
+              <span>Rekam Tilawah</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* FILTER & REFERENSI CABANG NAGHAM */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap gap-2">
+            {[
+              { id: "all", label: "Semua Materi Video (" + videoList.length + ")" },
+              { id: "tartil", label: "📖 Contoh Irama Nada Tartil (" + tartilVideos.length + ")" },
+              { id: "mujawwad", label: "🎵 Contoh Irama Tilawah Mujawwad (" + mujawwadVideos.length + ")" }
+            ].map(tab => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveCategory(tab.id)}
+                style={activeCategory === tab.id ? { backgroundColor: 'var(--primary-color)', color: '#ffffff' } : {}}
+                className={"px-4 py-2 rounded-xl text-xs font-extrabold transition cursor-pointer " + (activeCategory === tab.id ? "shadow-xs" : "bg-slate-100 text-slate-700 hover:bg-slate-200")}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={onOpenAdmin}
+            className="px-3 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-950 text-xs font-bold flex items-center gap-1.5 cursor-pointer border border-amber-300"
+          >
+            <Settings className="w-3.5 h-3.5" />
+            <span>Tambah / Atur Semua Video di Panel Admin</span>
+          </button>
+        </div>
+
+        {/* PETA CABANG & TINGKATAN NADA NAGHAM */}
+        <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3">
+          <div>
+            <h4 className="text-xs sm:text-sm font-extrabold text-amber-950">
+              📌 Panduan Struktur Maqam & Cabang Tingkatan Nada Tilawah
+            </h4>
+            <p className="text-[11px] text-amber-800">
+              Klik salah satu Maqam di bawah ini untuk melihat cabang dan urutan tingkatan nadanya:
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-1.5">
+            {NAGHAM_MAQAM_TREE.map(item => (
+              <button
+                key={item.maqam}
+                type="button"
+                onClick={() => setSelectedMaqamGuide(item.maqam)}
+                className={"px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer transition border " + (selectedMaqamGuide === item.maqam ? "bg-amber-500 text-slate-950 border-amber-600 shadow-xs" : "bg-white text-slate-700 border-amber-200 hover:bg-amber-100/60")}
+              >
+                {item.maqam}
+              </button>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-xl p-3.5 border border-amber-200/80 space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-xs font-extrabold text-slate-900">
+                Cabang / Tingkatan Nada Maqam {activeMaqamObj.maqam}:
+              </span>
+              <span className="text-[11px] italic text-slate-500">{activeMaqamObj.desc}</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {activeMaqamObj.branches.map((br, i) => (
+                <span
+                  key={br}
+                  className="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-800 flex items-center gap-1.5"
+                >
+                  <span
+                    style={{ backgroundColor: 'var(--primary-color)' }}
+                    className="w-4 h-4 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
+                  >
+                    {i + 1}
+                  </span>
+                  <span>{br}</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* BAGIAN A: CONTOH IRAMA NADA TARTIL */}
+      {(activeCategory === "all" || activeCategory === "tartil") && (
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-base sm:text-lg font-extrabold text-slate-800 flex items-center gap-2">
+              <span
+                style={{ backgroundColor: 'var(--primary-color)' }}
+                className="w-7 h-7 rounded-xl text-white flex items-center justify-center text-xs font-bold"
+              >
+                📖
+              </span>
+              <span>A. Contoh-Contoh Irama Nada dalam Tartil (Murottal & Tahfiz)</span>
+            </h4>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Klik tombol Play pada pemutar YouTube di bawah ini untuk menyimak contoh irama Tartil langsung di halaman web.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {tartilVideos.map(vid => renderVideoCard(vid, "bg-emerald-100 text-emerald-800", "Irama Tartil"))}
+          </div>
+        </div>
+      )}
+
+      {/* BAGIAN B: CONTOH IRAMA NADA TILAWAH MUJAWWAD */}
+      {(activeCategory === "all" || activeCategory === "mujawwad") && (
+        <div className="space-y-4 pt-2">
+          <div>
+            <h4 className="text-base sm:text-lg font-extrabold text-slate-800 flex items-center gap-2">
+              <span
+                style={{ backgroundColor: 'var(--accent-color)' }}
+                className="w-7 h-7 rounded-xl text-slate-950 flex items-center justify-center text-xs font-bold"
+              >
+                🎵
+              </span>
+              <span>B. Contoh-Contoh Irama Nada Tilawah Mujawwad (Maqam & Cabang Lagu)</span>
+            </h4>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Simak contoh lantunan Maqam Bayyati (Qarar, Nawa, Husaini, Jawab, Jawabul Jawab), Shoba, Nahawand, Hijaz, Rost, Sikah, dan Jiharkah langsung pada video di bawah ini.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {mujawwadVideos.map(vid => renderVideoCard(vid, "bg-amber-100 text-amber-900 border border-amber-300", "Tilawah Mujawwad"))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+`;
+
+          if (studentStartIdx !== -1 && teacherStartIdx !== -1) {
+            tsxCode = tsxCode.slice(0, studentStartIdx) + replacementStudentAndTutorialPages + "\n\n" + tsxCode.slice(teacherStartIdx);
+          }
+
+          // ===================================================================
+          // 4. PATCH FITUR CLOUD, HASH ROUTING & IMPORT MASSAL MURID (DENGAN LF NORMALIZED)
+          // ===================================================================
           const oldNavState = `  // Navigasi 6 Halaman Utama + 1 Halaman Database/Spreadsheet
   const [activePage, setActivePage] = useState(1);`;
 
-          const newNavState = `  // Navigasi 6 Halaman Utama + 1 Halaman Database/Spreadsheet (Mendukung URL Hash Routing)
+          const newNavState = `  // Navigasi Halaman Utama + Tutorial + Database (Mendukung URL Hash Routing)
   const [activePage, setActivePage] = useState(() => {
     return typeof window !== 'undefined' && window.__getPageFromHash ? window.__getPageFromHash() : 1;
   });
@@ -293,7 +1811,6 @@
 
           tsxCode = tsxCode.replace(oldNavState, newNavState);
 
-          // Tambahkan tombol "Salin Link Halaman" di sebelah indikator Menu Aktif
           const oldActiveBannerInfo = `          <div className="flex items-center gap-3 text-xs text-slate-500">`;
           const newActiveBannerInfo = `          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
             <button
@@ -311,7 +1828,6 @@
 
           tsxCode = tsxCode.replace(oldActiveBannerInfo, newActiveBannerInfo);
 
-          // PATCH 1: SIMPAN ADMIN KE CLOUD
           const oldSaveAdmin = `  // Simpan semua perubahan ke state utama & localStorage
   const handleSaveAllChanges = () => {
     const activeCount = Object.values(draftConfig.enabledPages).filter(Boolean).length;
@@ -335,14 +1851,13 @@
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(draftConfig));
     if (typeof document !== 'undefined') {
       document.body.classList.toggle('hide-password-hints', Boolean(draftConfig.hidePasswordHints));
-      document.title = \`\${draftConfig.programTitle || 'E-Tahfiz'} - \${draftConfig.schoolName}\`;
+      document.title = (draftConfig.programTitle || 'E-Tahfiz') + ' - ' + draftConfig.schoolName;
     }
     onSyncSpreadsheet(draftConfig);
   };`;
 
           tsxCode = tsxCode.replace(oldSaveAdmin, newSaveAdmin);
 
-          // PATCH 2: CORS PENGIRIMAN CONFIG
           const oldSyncFunc = `      if (customConfig.gasWebhookUrl && customConfig.gasWebhookUrl.startsWith("http")) {
         fetch(customConfig.gasWebhookUrl, {
           method: "POST",
@@ -371,7 +1886,6 @@
 
           tsxCode = tsxCode.replace(oldSyncFunc, newSyncFunc);
 
-          // PATCH 3: STATE DATA REKAMAN + AUTO-UPDATE SAAT BACKGROUND SYNC SELESAI
           const oldRecordsBlock = `  // State Data Rekaman
   const [records, setRecords] = useState(() => {
     const tahfizSampleAudio = generateSimulatedMurottalWav(5, 'tahfiz');
@@ -416,7 +1930,20 @@
     const handleCloudUpdate = (e) => {
       const cloudData = e.detail || {};
       if (cloudData.config && cloudData.config.schoolName) {
-        setConfig(cloudData.config);
+        setConfig(prev => ({
+          ...prev,
+          ...cloudData.config,
+          enabledPages: {
+            ...prev.enabledPages,
+            ...(cloudData.config.enabledPages || {}),
+            8: (cloudData.config.enabledPages && cloudData.config.enabledPages[8] !== undefined)
+              ? cloudData.config.enabledPages[8]
+              : prev.enabledPages[8]
+          },
+          tutorialVideos: Array.isArray(cloudData.config.tutorialVideos) && cloudData.config.tutorialVideos.length > 0
+            ? cloudData.config.tutorialVideos
+            : prev.tutorialVideos
+        }));
       }
       if (Array.isArray(cloudData.records) && cloudData.records.length > 0) {
         setRecords(formatRecordList(cloudData.records));
@@ -499,29 +2026,6 @@
             "setRecords(prev => { const next = prev.filter(rec => rec.id !== recordId); postToCloudFast({ action: 'DELETE_SINGLE_RECORD', recordId }, next); return next; });"
           );
 
-          // PATCH 4: KOMPRESI AUDIO REKAMAN (32 KBPS)
-          tsxCode = tsxCode.replace(
-            "const mediaRecorder = new MediaRecorder(stream);",
-            "const mime = MediaRecorder.isTypeSupported('audio/webm;codecs=opus') ? 'audio/webm;codecs=opus' : (MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : ''); const mediaRecorder = mime ? new MediaRecorder(stream, { mimeType: mime, audioBitsPerSecond: 32000 }) : new MediaRecorder(stream);"
-          );
-
-          const oldBlobStop = `          if (audioChunksRef.current.length > 0) {
-            const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-            const url = URL.createObjectURL(audioBlob);
-            setRecordedAudioUrl(url);
-          }`;
-          const newBlobStop = `          if (audioChunksRef.current.length > 0) {
-            const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
-            const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              if (typeof reader.result === 'string') setRecordedAudioUrl(reader.result);
-            };
-            reader.readAsDataURL(audioBlob);
-          }`;
-          tsxCode = tsxCode.replace(oldBlobStop, newBlobStop);
-
-          // PATCH 5: FITUR IMPORT MASSAL 1.000 MURID DARI EXCEL
           const oldStudentState = `  // State tambah murid baru
   const [newStudentName, setNewStudentName] = useState("");`;
           const newStudentState = `  // State tambah murid baru & Bulk Import Excel 1.000 Murid
@@ -544,8 +2048,8 @@
       const customPwd = (parts[2] || "").trim().replace(/^["']|["']$/g, "");
       const num = baseIdx + idx + 1;
       return {
-        id: \`STD-\${String(num).padStart(3, '0')}-\${Math.random().toString(36).slice(2, 5)}\`,
-        name: name || \`Murid \${num}\`,
+        id: "STD-" + String(num).padStart(3, '0') + "-" + Math.random().toString(36).slice(2, 5),
+        name: name || ("Murid " + num),
         kelas: kelas || "VII-A",
         password: customPwd || String(startPwd + num - 1)
       };
@@ -556,7 +2060,7 @@
     }));
     setBulkExcelText("");
     setShowBulkModal(false);
-    showToast(\`Berhasil mengimpor \${parsedStudents.length} murid sekaligus! Jangan lupa klik Simpan Pengaturan Admin.\`);
+    showToast("Berhasil mengimpor " + parsedStudents.length + " murid sekaligus! Jangan lupa klik Simpan Pengaturan Admin.");
   };`;
           tsxCode = tsxCode.replace(oldStudentState, newStudentState);
 
@@ -612,7 +2116,6 @@
 
           tsxCode = tsxCode.replace(targetRangeBox, injectedBulkImporter);
 
-          // PATCH 6: SAKLAR SEMBUNYIKAN BANTUAN PASSWORD DI TAB 1 ADMIN
           const targetAdminPinInput = `                      <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1">PIN Halaman Database:</label>
                         <input
@@ -635,9 +2138,7 @@
                       <button
                         type="button"
                         onClick={() => setDraftConfig(prev => ({ ...prev, hidePasswordHints: !prev.hidePasswordHints }))}
-                        className={\`px-3.5 py-2 rounded-xl text-xs font-extrabold shrink-0 cursor-pointer transition \${
-                          draftConfig.hidePasswordHints ? 'bg-slate-900 text-amber-400' : 'bg-amber-500 text-slate-950'
-                        }\`}
+                        className={"px-3.5 py-2 rounded-xl text-xs font-extrabold shrink-0 cursor-pointer transition " + (draftConfig.hidePasswordHints ? "bg-slate-900 text-amber-400" : "bg-amber-500 text-slate-950")}
                       >
                         {draftConfig.hidePasswordHints ? '🔒 TERSEMBUNYI (MODE RESMI)' : '🔓 TAMPIL (MODE DEMO)'}
                       </button>
