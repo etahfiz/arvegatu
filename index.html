@@ -248,17 +248,17 @@
         setupDriveAudioAutoLoader(activeWebhook);
         syncCloudInBackground(activeWebhook);
 
-        // Bersihkan cache versi lama agar tidak nyangkut
+        // Bersihkan semua cache kompilasi versi sebelumnya
         try {
           sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V4");
           sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V5");
+          sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V6_STABLE");
         } catch (e) {}
 
-        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V6_STABLE";
+        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V7_FINAL";
         let compiledCode = sessionStorage.getItem(CACHE_KEY);
 
         if (!compiledCode) {
-          // Coba muat nama file standar, jika tidak ada coba nama file dengan (1)
           let res = await fetch('./e_tahfiz_tilawah_smpn_4_malang.tsx');
           if (!res.ok) {
             res = await fetch('./e_tahfiz_tilawah_smpn_4_malang%20(1).tsx');
@@ -267,7 +267,7 @@
 
           let tsxCode = await res.text();
 
-          // KRUSIAL: Normalisasi seluruh baris baru Windows (\r\n) menjadi (\n) agar pencocokan 100% akurat
+          // Normalisasi baris baru Windows (\r\n) ke (\n)
           tsxCode = tsxCode.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 
           if (activeWebhook && activeWebhook.startsWith("http")) {
@@ -278,12 +278,16 @@
           }
 
           // ===================================================================
-          // 1. GANTI DATA SURAT MENJADI 30 JUZ LENGKAP + DATA NAGHAM & VIDEO TUTORIAL
+          // 1. HAPUS SURAHS_DATA LAMA & LETAKKAN DATA 30 JUZ + NAGHAM + TUTORIAL
+          //    TEPAT DI ATAS DEFAULT_CONFIG AGAR TIDAK TERJADI ERROR INITIALIZATION
           // ===================================================================
-          const surahStartIdx = tsxCode.indexOf("const SURAHS_DATA = [");
-          const gradeStartIdx = tsxCode.indexOf("const GRADE_OPTIONS = [");
+          const oldSurahStartIdx = tsxCode.indexOf("const SURAHS_DATA = [");
+          const oldGradeStartIdx = tsxCode.indexOf("const GRADE_OPTIONS = [");
+          if (oldSurahStartIdx !== -1 && oldGradeStartIdx !== -1) {
+            tsxCode = tsxCode.slice(0, oldSurahStartIdx) + tsxCode.slice(oldGradeStartIdx);
+          }
 
-          const replacementSurahAndNaghamData = `
+          const master30JuzAndTutorialBlock = `
 const ALL_114_SURAHS = [
   [1, "Al-Fatihah", "Pembukaan", 7], [2, "Al-Baqarah", "Sapi Betina", 286], [3, "Ali 'Imran", "Keluarga Imran", 200],
   [4, "An-Nisa'", "Wanita", 176], [5, "Al-Ma'idah", "Hidangan", 120], [6, "Al-An'am", "Binatang Ternak", 165],
@@ -530,9 +534,10 @@ function extractYouTubeEmbedUrl(rawUrl) {
 }
 `;
 
-          if (surahStartIdx !== -1 && gradeStartIdx !== -1) {
-            tsxCode = tsxCode.slice(0, surahStartIdx) + replacementSurahAndNaghamData + "\n\n" + tsxCode.slice(gradeStartIdx);
-          }
+          tsxCode = tsxCode.replace(
+            "const DEFAULT_CONFIG = {",
+            master30JuzAndTutorialBlock + "\n\nconst DEFAULT_CONFIG = {"
+          );
 
           // ===================================================================
           // 2. AKTIFKAN HALAMAN 8 (TUTORIAL) PADA CONFIG & BAR NAVIGASI ATAS
@@ -1781,7 +1786,7 @@ function TutorialPracticePage({
           }
 
           // ===================================================================
-          // 4. PATCH FITUR CLOUD, HASH ROUTING & IMPORT MASSAL MURID (DENGAN LF NORMALIZED)
+          // 4. PATCH FITUR CLOUD, HASH ROUTING & IMPORT MASSAL MURID
           // ===================================================================
           const oldNavState = `  // Navigasi 6 Halaman Utama + 1 Halaman Database/Spreadsheet
   const [activePage, setActivePage] = useState(1);`;
