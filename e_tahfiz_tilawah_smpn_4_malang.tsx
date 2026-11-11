@@ -730,7 +730,7 @@ export default function App() {
                     {config.schoolName}
                   </span>
                   <span className="text-xs text-white/85 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" style={{ color: 'var(--accent-color)' }} /> Sistem White-Label Terintegrasi Drive & Spreadsheet
+                    <Sparkles className="w-3.5 h-3.5" style={{ color: 'var(--accent-color)' }} /> Sistem Monitoring Al-Qur'an Terpadu
                   </span>
                 </div>
                 <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white mt-0.5">
