@@ -53,7 +53,7 @@
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:linear-gradient(135deg,#065f46,#115e59);color:#ffffff;font-family:'Inter',sans-serif;text-align:center;padding:20px;">
       <div style="width:56px;height:56px;border-radius:16px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:16px;box-shadow:0 10px 25px rgba(0,0,0,0.2);">🕌</div>
       <div style="font-size:20px;font-weight:800;margin-bottom:6px;">Membuka Portal E-Tahfiz...</div>
-      <div style="font-size:13px;color:#d1fae5;max-width:360px;">Menyiapkan Halaman untuk Anda...</div>
+      <div style="font-size:13px;color:#d1fae5;max-width:360px;">Menyiapkan Mushaf Juz 1-30, Maqam Nagham & Halaman Tutorial...</div>
     </div>
   </div>
 
@@ -255,7 +255,8 @@
           sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V6_STABLE");
         } catch (e) {}
 
-        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V7_FINAL";
+        try { sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V7_FINAL"); } catch (e) {}
+        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V8_SECURE";
         let compiledCode = sessionStorage.getItem(CACHE_KEY);
 
         if (!compiledCode) {
@@ -1007,7 +1008,7 @@ function StudentRecordingPage({
       const driveFileName = prefix + "_" + cleanName + "_Juz" + selectedJuz + "_" + cleanSurah + "_Ayat" + start + "-" + end + ".webm";
 
       const newRecord = {
-        id: "REC-" + prefix + "-" + Date.now().toString().slice(-4),
+        id: "REC-" + prefix + "-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).slice(2, 5).toUpperCase(),
         category,
         studentId: confirmedStudent.id,
         studentName: confirmedStudent.name,
@@ -1879,10 +1880,10 @@ function TutorialPracticePage({
           const newSyncFunc = `      if (customConfig.gasWebhookUrl && customConfig.gasWebhookUrl.startsWith("http") && !customConfig.gasWebhookUrl.includes("SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK")) {
         fetch(customConfig.gasWebhookUrl, {
           method: "POST",
-          mode: "no-cors",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify({
             action: "SAVE_WHITELABEL_CONFIG",
+            authPin: customConfig.adminPin,
             timestamp: new Date().toISOString(),
             config: customConfig
           })
@@ -1969,10 +1970,22 @@ function TutorialPracticePage({
     if (config.gasWebhookUrl && config.gasWebhookUrl.startsWith("http") && !config.gasWebhookUrl.includes("SMPN4MALANG_TAHFIZ_TILAWAH_WEBHOOK")) {
       fetch(config.gasWebhookUrl, {
         method: "POST",
-        mode: "no-cors",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
-      }).catch(() => {});
+      })
+      .then(res => res.json())
+      .then(serverRes => {
+        if (serverRes && serverRes.status === "success" && serverRes.driveFileId && payload.record) {
+          setRecords(prev => prev.map(item => item.id === payload.record.id ? {
+            ...item,
+            driveFileId: serverRes.driveFileId,
+            audioUrl: serverRes.audioUrl || item.audioUrl,
+            driveUrl: serverRes.driveUrl || item.driveUrl,
+            sheetStatus: serverRes.sheetStatus || item.sheetStatus
+          } : item));
+        }
+      })
+      .catch(err => console.warn("Gagal sinkronisasi ke Cloud:", err));
     }
   };`;
 
@@ -2162,6 +2175,18 @@ function TutorialPracticePage({
           tsxCode = tsxCode.replace(
             'onClick={onOpenPasswordList}\n            style={{ color: \'var(--primary-color)\' }}\n            className="text-xs font-bold hover:underline cursor-pointer"',
             'onClick={onOpenPasswordList}\n            style={{ color: \'var(--primary-color)\' }}\n            className="demo-pwd-btn text-xs font-bold hover:underline cursor-pointer"'
+          );
+
+          // Tutup backdoor password "admin123" pada Halaman 7 (Database)
+          tsxCode = tsxCode.replace(
+            'if (cleanedPin === String(databasePin || "123456") || cleanedPin.toLowerCase() === "admin123")',
+            'if (cleanedPin === String(databasePin || "123456"))'
+          );
+
+          // Sembunyikan kolom password murid pada hasil Export HTML jika Mode Resmi aktif
+          tsxCode = tsxCode.replace(
+            '<code class="px-2 py-0.5 rounded bg-slate-200 font-bold">${s.password}</code>',
+            '${currentConfig.hidePasswordHints ? `<span class="text-slate-400 italic">Terproteksi</span>` : `<code class="px-2 py-0.5 rounded bg-slate-200 font-bold">${s.password}</code>`}'
           );
 
           const modifiedCode = tsxCode.replace('export default function App()', 'function App()') +
