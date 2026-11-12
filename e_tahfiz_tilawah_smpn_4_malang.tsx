@@ -988,7 +988,7 @@ export default function App() {
       <footer className="bg-slate-900 text-slate-400 border-t border-slate-800 py-5 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
           <div>
-            <strong className="text-white">{config.schoolName}</strong> — {config.programTitle} (White-Label Edition).
+            <strong className="text-white">{config.schoolName}</strong> — {config.programTitle} (Arvegatu Edition).
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {[1, 2, 3, 4, 5, 6].filter(num => config.enabledPages[num]).map(num => (
