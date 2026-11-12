@@ -53,7 +53,7 @@
     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background:linear-gradient(135deg,#065f46,#115e59);color:#ffffff;font-family:'Inter',sans-serif;text-align:center;padding:20px;">
       <div style="width:56px;height:56px;border-radius:16px;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:16px;box-shadow:0 10px 25px rgba(0,0,0,0.2);">🕌</div>
       <div style="font-size:20px;font-weight:800;margin-bottom:6px;">Membuka Portal E-Tahfiz...</div>
-      <div style="font-size:13px;color:#d1fae5;max-width:360px;">Menyiapkan Sistem Hafalan Juz 1-30, Tilawah & Halaman Tutorial...</div>
+      <div style="font-size:13px;color:#d1fae5;max-width:360px;">Menyiapkan Mushaf Juz 1-30, Maqam Nagham & Halaman Tutorial...</div>
     </div>
   </div>
 
@@ -202,8 +202,9 @@
           if (!cloudData.config.gasWebhookUrl || cloudData.config.gasWebhookUrl.includes("SMPN4MALANG")) {
             cloudData.config.gasWebhookUrl = activeWebhook;
           }
-          if (cloudData.config.enabledPages && cloudData.config.enabledPages[8] === undefined) {
-            cloudData.config.enabledPages[8] = true;
+          if (cloudData.config.enabledPages) {
+            if (cloudData.config.enabledPages[8] === undefined) cloudData.config.enabledPages[8] = true;
+            if (cloudData.config.enabledPages[7] === undefined) cloudData.config.enabledPages[7] = true;
           }
           localStorage.setItem("ETAHFIZ_WHITELABEL_CONFIG_V1", JSON.stringify(cloudData.config));
           if (typeof document !== 'undefined') {
@@ -255,8 +256,11 @@
           sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V6_STABLE");
         } catch (e) {}
 
-        try { sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V7_FINAL"); } catch (e) {}
-        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V8_SECURE";
+        try {
+          sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V7_FINAL");
+          sessionStorage.removeItem("ETAHFIZ_COMPILED_JS_V8_SECURE");
+        } catch (e) {}
+        const CACHE_KEY = "ETAHFIZ_COMPILED_JS_V9_OFFICIAL";
         let compiledCode = sessionStorage.getItem(CACHE_KEY);
 
         if (!compiledCode) {
@@ -827,7 +831,9 @@ function StudentRecordingPage({
 }) {
   const isTilawah = category === 'tilawah';
   const [selectedStudentId, setSelectedStudentId] = useState(students[0]?.id || "");
+  const [studentPasswordInput, setStudentPasswordInput] = useState("");
   const [confirmedStudent, setConfirmedStudent] = useState(null);
+  const currentSelectedStd = students.find(s => s.id === selectedStudentId);
 
   useEffect(() => {
     if (students.length > 0 && !students.some(s => s.id === selectedStudentId)) {
@@ -897,12 +903,21 @@ function StudentRecordingPage({
   const handleConfirmStudent = (e) => {
     e.preventDefault();
     const std = students.find(s => s.id === selectedStudentId);
-    if (std) {
-      setConfirmedStudent(std);
-      setRecordedAudioUrl(null);
-      setRecordingSeconds(0);
-      showToast("Murid " + std.name + " (" + std.kelas + ") dipilih. Silakan pilih Juz (1-30), Surat & mulai merekam.");
+    if (!std) return;
+    if (studentPasswordInput.trim() !== String(std.password)) {
+      const isOfficial = typeof document !== "undefined" && document.body.classList.contains("hide-password-hints");
+      showToast(
+        isOfficial
+          ? "NISN / Password Murid salah! Silakan hubungi Guru Pembina atau Admin."
+          : ("NISN / Password Murid salah! Gunakan: " + std.password),
+        "error"
+      );
+      return;
     }
+    setConfirmedStudent(std);
+    setRecordedAudioUrl(null);
+    setRecordingSeconds(0);
+    showToast("Verifikasi berhasil! Murid " + std.name + " (" + std.kelas + ") siap merekam.");
   };
 
   useEffect(() => {
@@ -1077,7 +1092,7 @@ function StudentRecordingPage({
         </div>
       </div>
 
-      {/* LANGKAH 1: PILIH NAMA MURID */}
+      {/* LANGKAH 1: PILIH NAMA MURID & VERIFIKASI NISN / PASSWORD */}
       <div className="bg-white rounded-2xl shadow-xs border border-slate-200 p-5 sm:p-6">
         <h4 className="text-base font-bold text-slate-800 flex items-center gap-2 mb-4">
           <span
@@ -1086,17 +1101,21 @@ function StudentRecordingPage({
           >
             1
           </span>
-          <span>Pilih Nama Murid & Tekan Tombol OK</span>
+          <span>Pilih Nama Murid, Masukkan NISN / Password & Tekan OK</span>
         </h4>
 
         <form onSubmit={handleConfirmStudent} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-          <div className="sm:col-span-9">
+          <div className="sm:col-span-5">
             <label className="block text-xs font-semibold text-slate-600 mb-1">
               Daftar Nama Murid {schoolName} ({students.length} Murid):
             </label>
             <select
               value={selectedStudentId}
-              onChange={(e) => setSelectedStudentId(e.target.value)}
+              onChange={(e) => {
+                setSelectedStudentId(e.target.value);
+                setConfirmedStudent(null);
+                setStudentPasswordInput("");
+              }}
               className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-semibold text-slate-800 bg-slate-50 focus:outline-none"
             >
               {students.map((std, idx) => (
@@ -1107,6 +1126,29 @@ function StudentRecordingPage({
             </select>
           </div>
 
+          <div className="sm:col-span-4">
+            <div className="flex items-center justify-between mb-1">
+              <label className="text-xs font-semibold text-slate-600">Password / NISN Murid:</label>
+              {currentSelectedStd && (
+                <button
+                  type="button"
+                  onClick={() => setStudentPasswordInput(String(currentSelectedStd.password))}
+                  style={{ color: 'var(--primary-color)' }}
+                  className="text-[11px] font-bold hover:underline cursor-pointer demo-pwd-btn"
+                >
+                  Isi NISN ({currentSelectedStd.password})
+                </button>
+              )}
+            </div>
+            <input
+              type="password"
+              value={studentPasswordInput}
+              onChange={(e) => setStudentPasswordInput(e.target.value)}
+              placeholder="Masukkan NISN / Password"
+              className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-mono font-bold text-slate-800 bg-slate-50"
+            />
+          </div>
+
           <div className="sm:col-span-3">
             <button
               type="submit"
@@ -1114,7 +1156,7 @@ function StudentRecordingPage({
               className="w-full py-2.5 px-5 rounded-xl font-bold text-sm text-white shadow-sm hover:opacity-95 transition cursor-pointer flex items-center justify-center gap-2"
             >
               <Check className="w-4 h-4" />
-              <span>OK (Pilih Murid)</span>
+              <span>OK (Verifikasi)</span>
             </button>
           </div>
         </form>
@@ -1310,8 +1352,8 @@ function StudentRecordingPage({
                   type="button"
                   onClick={() => {
                     if (!confirmedStudent) {
-                      const std = students.find(s => s.id === selectedStudentId);
-                      setConfirmedStudent(std);
+                      showToast("Masukkan NISN / Password Murid dan klik tombol OK (Verifikasi) pada Langkah 1 terlebih dahulu!", "error");
+                      return;
                     }
                     startRecording();
                   }}
@@ -1472,7 +1514,8 @@ function TutorialPracticePage({
   const handleSaveQuickEdit = (vidId) => {
     if (!isAdminAuthenticated) {
       if (pinPromptInput.trim() !== String(adminPin || "999999")) {
-        showToast("Masukkan PIN Admin (" + (adminPin || "999999") + ") untuk menyimpan perubahan video!", "error");
+        const isOfficial = typeof document !== "undefined" && document.body.classList.contains("hide-password-hints");
+        showToast(isOfficial ? "PIN Admin tidak sesuai!" : ("Masukkan PIN Admin (" + (adminPin || "999999") + ") untuk menyimpan perubahan video!"), "error");
         return;
       }
       setIsAdminAuthenticated(true);
@@ -1558,7 +1601,7 @@ function TutorialPracticePage({
                   type="password"
                   value={pinPromptInput}
                   onChange={(e) => setPinPromptInput(e.target.value)}
-                  placeholder={"Masukkan PIN Admin (" + (adminPin || "999999") + ")"}
+                  placeholder="Masukkan PIN Admin"
                   className="w-full rounded-lg border border-amber-400 px-2.5 py-1.5 bg-white font-mono font-bold"
                 />
               )}
@@ -2177,13 +2220,123 @@ function TutorialPracticePage({
             'onClick={onOpenPasswordList}\n            style={{ color: \'var(--primary-color)\' }}\n            className="demo-pwd-btn text-xs font-bold hover:underline cursor-pointer"'
           );
 
-          // Tutup backdoor password "admin123" pada Halaman 7 (Database)
+          // ===================================================================
+          // 5. SAKLAR 8 HALAMAN PENUH (TERMASUK HALAMAN TUTORIAL & DATABASE)
+          // ===================================================================
+          tsxCode = tsxCode.replace(
+            "6: true, 8: true // Halaman 6 & Halaman 8 (Tutorial)",
+            "6: true, 8: true, 7: true // Saklar 8 Halaman Lengkap"
+          );
+          tsxCode = tsxCode.replace(
+            "if (((activePage >= 1 && activePage <= 6) || activePage === 8) && !config.enabledPages[activePage]) {",
+            "if (config.enabledPages[activePage] === false) {"
+          );
+          tsxCode = tsxCode.replace(
+            "const firstAvailable = [1, 2, 3, 4, 5, 6, 8].find(id => config.enabledPages[id]) || 7;",
+            "const firstAvailable = [1, 2, 3, 4, 5, 6, 8, 7].find(id => config.enabledPages[id] !== false) || 1;"
+          );
+          tsxCode = tsxCode.replace(
+            "const visibleNavPages = allNavPages.filter(page => page.id === 7 || config.enabledPages[page.id]);",
+            "const visibleNavPages = allNavPages.filter(page => config.enabledPages[page.id] !== false);"
+          );
+          tsxCode = tsxCode.replace(
+            "{activePage === 7 && (",
+            "{activePage === 7 && config.enabledPages[7] !== false && ("
+          );
+          tsxCode = tsxCode.replace(
+            "{[1, 2, 3, 4, 5, 6, 8].filter(num => config.enabledPages[num]).map(num => (",
+            "{[1, 2, 3, 4, 5, 6, 8, 7].filter(num => config.enabledPages[num] !== false).map(num => ("
+          );
+          tsxCode = tsxCode.replaceAll("Saklar 6 Halaman", "Saklar 8 Halaman");
+          tsxCode = tsxCode.replace(
+            "masing-masing dari 6 halaman sesuai kebutuhan sekolah",
+            "masing-masing dari 8 halaman (termasuk Halaman Tutorial & Halaman Database) sesuai kebutuhan sekolah"
+          );
+          tsxCode = tsxCode.replace(
+            '{ id: 8, name: "Halaman 7: Tutorial & Latihan Irama (Tartil & Tilawah Mujawwad)", desc: "Halaman khusus contoh video YouTube embed irama nada Tartil & Maqam Tilawah Mujawwad (Hanya bisa diaktifkan oleh Admin)" }',
+            '{ id: 8, name: "Halaman 7: Tutorial & Latihan Irama (Tartil & Tilawah Mujawwad)", desc: "Halaman khusus contoh video YouTube embed irama nada Tartil & Maqam Tilawah Mujawwad" },\n    { id: 7, name: "Halaman 8: Database (Drive & Rekapitulasi Spreadsheet)", desc: "Halaman rekapitulasi database Google Spreadsheet & manajemen file audio Google Drive" }'
+          );
+
+          // ===================================================================
+          // 6. SEMBUNYIKAN SEMUA BOCORAN PASSWORD & PIN SAAT MODE RESMI AKTIF
+          // ===================================================================
+          // A. Panel Login Admin (Sembunyikan tulisan Default: 999999, placeholder & tombol Isi Default)
+          tsxCode = tsxCode.replace(
+            '(Default: <code className="px-1.5 py-0.5 rounded bg-slate-100 font-bold text-slate-800">{config.adminPin || "999999"}</code>)',
+            '<span className="demo-pwd-btn">(Default: <code className="px-1.5 py-0.5 rounded bg-slate-100 font-bold text-slate-800">{config.adminPin || "999999"}</code>)</span>'
+          );
+          tsxCode = tsxCode.replace(
+            'placeholder="Masukkan PIN Admin (999999)"',
+            'placeholder="Masukkan PIN Admin"'
+          );
+          tsxCode = tsxCode.replace(
+            'onClick={() => setPinInput(String(config.adminPin || "999999"))}\n                  className="flex-1 py-2.5',
+            'onClick={() => setPinInput(String(config.adminPin || "999999"))}\n                  className="demo-pwd-btn flex-1 py-2.5'
+          );
+          tsxCode = tsxCode.replace(
+            'showToast(`PIN Admin salah! Gunakan PIN Admin: ${config.adminPin || "999999"}`, "error");',
+            'showToast(config.hidePasswordHints ? "PIN Admin salah! Akses hanya untuk Administrator." : `PIN Admin salah! Gunakan PIN Admin: ${config.adminPin || "999999"}`, "error");'
+          );
+
+          // B. Halaman Guru (Sembunyikan Password Default di subtitle, judul login, placeholder, teks kunci & toast error)
+          tsxCode = tsxCode.replaceAll(
+            'Login Guru (Password Default: ${config.teacherPassword})',
+            'Login Guru Pembina'
+          );
+          tsxCode = tsxCode.replace(
+            '<span>Otentikasi Guru Pembina (Password: {teacherPassword})</span>',
+            '<span>Otentikasi Guru Pembina <span className="demo-pwd-btn">(Password: {teacherPassword})</span></span>'
+          );
+          tsxCode = tsxCode.replace(
+            'placeholder={`Masukkan ${teacherPassword}`}',
+            'placeholder="Masukkan Password Guru"'
+          );
+          tsxCode = tsxCode.replace(
+            'ketik password <strong>{teacherPassword}</strong>,',
+            'masukkan <strong>Password Guru</strong>,'
+          );
+          tsxCode = tsxCode.replace(
+            'showToast(`Password Guru salah! Gunakan password: ${teacherPassword || "123456"}`, "error");',
+            'showToast(document.body.classList.contains("hide-password-hints") ? "Password Guru salah! Silakan hubungi Admin." : `Password Guru salah! Gunakan password: ${teacherPassword || "123456"}`, "error");'
+          );
+
+          // C. Halaman Orang Tua (Sembunyikan rentang password di subtitle & bocoran password di toast error)
+          tsxCode = tsxCode.replaceAll(
+            'masukkan password murid (${firstStudentPwd} - ${lastStudentPwd})',
+            'masukkan Password / NISN putra-putri Anda'
+          );
+          tsxCode = tsxCode.replace(
+            'showToast(`Password salah! Password untuk ${std.name} adalah ${std.password}.`, "error");',
+            'showToast(document.body.classList.contains("hide-password-hints") ? "Password / NISN salah! Silakan hubungi Guru Pembina atau Admin." : `Password salah! Password untuk ${std.name} adalah ${std.password}.`, "error");'
+          );
+
+          // D. Halaman Database (Tutup backdoor admin123, sembunyikan PIN di placeholder, kotak terkunci & toast error)
           tsxCode = tsxCode.replace(
             'if (cleanedPin === String(databasePin || "123456") || cleanedPin.toLowerCase() === "admin123")',
             'if (cleanedPin === String(databasePin || "123456"))'
           );
+          tsxCode = tsxCode.replace(
+            'placeholder={`PIN: ${databasePin || "123456"} atau admin123`}',
+            'placeholder="Masukkan PIN Database"'
+          );
+          tsxCode = tsxCode.replace(
+            '(<code className="bg-amber-200/80 px-1.5 py-0.5 rounded font-bold">{databasePin || "123456"}</code> atau <code className="bg-amber-200/80 px-1.5 py-0.5 rounded font-bold">admin123</code>)',
+            '<span className="demo-pwd-btn">(PIN: <code className="bg-amber-200/80 px-1.5 py-0.5 rounded font-bold">{databasePin || "123456"}</code>)</span>'
+          );
+          tsxCode = tsxCode.replace(
+            'showToast(`PIN / Password Database salah! Gunakan PIN: ${databasePin || "123456"} atau admin123`, "error");',
+            'showToast(document.body.classList.contains("hide-password-hints") ? "PIN Database salah! Akses ditolak." : `PIN Database salah! Gunakan PIN: ${databasePin || "123456"}`, "error");'
+          );
 
-          // Sembunyikan kolom password murid pada hasil Export HTML jika Mode Resmi aktif
+          // E. Sembunyikan Kredensial & Password Murid pada hasil Export HTML jika Mode Resmi aktif
+          tsxCode = tsxCode.replace(
+            '<div>PIN Admin: <code>${currentConfig.adminPin}</code></div>',
+            '<div>PIN Admin: <code>${currentConfig.hidePasswordHints ? "Terproteksi" : currentConfig.adminPin}</code></div>'
+          );
+          tsxCode = tsxCode.replace(
+            '<div>Password Guru: <code>${currentConfig.teacherPassword}</code></div>',
+            '<div>Password Guru: <code>${currentConfig.hidePasswordHints ? "Terproteksi" : currentConfig.teacherPassword}</code></div>'
+          );
           tsxCode = tsxCode.replace(
             '<code class="px-2 py-0.5 rounded bg-slate-200 font-bold">${s.password}</code>',
             '${currentConfig.hidePasswordHints ? `<span class="text-slate-400 italic">Terproteksi</span>` : `<code class="px-2 py-0.5 rounded bg-slate-200 font-bold">${s.password}</code>`}'
